@@ -4,7 +4,7 @@ SoftwareSerial ld2420(8, 9); // RX=8 (OT1), TX=9 (RX del sensor)
 
 const int LED_MOVIMIENTO = 4;
 const int LED_ESTATICO = 5;
-const int BUZZER = 6;          // Buzzer PASIVO (necesita tone())
+const int BUZZER = 10;         // Buzzer PASIVO (necesita tone())
 const int LED_SIN_PRESENCIA = 7; // LED verde: encendido cuando no hay nadie
 
 String linea = "";
