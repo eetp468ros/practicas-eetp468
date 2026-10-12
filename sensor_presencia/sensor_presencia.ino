@@ -40,6 +40,10 @@ void setup() {
   // Al arrancar no hay presencia: LED verde encendido
   digitalWrite(LED_SIN_PRESENCIA, HIGH);
 
+  // Pitido de arranque: si no se escucha, revisar conexion del buzzer
+  tone(BUZZER, 2000, 200);
+  delay(250);
+
   Serial.println("Iniciando deteccion simple...");
 }
 
@@ -133,16 +137,21 @@ void actualizarEstado() {
 // el objeto, mas seguidos y mas agudos son los pitidos.
 // No usa delay(), asi el sensor se sigue leyendo sin perder datos.
 void actualizarSonar() {
-  if (estadoActual != MOVIMIENTO || rangoActual < 0) {
+  if (estadoActual != MOVIMIENTO) {
     return;
   }
 
-  int r = constrain(rangoActual, RANGO_CERCA, RANGO_LEJOS);
+  // Si todavia no llego ningun "Range", pitamos como si estuviera lejos
+  int r = (rangoActual < 0) ? RANGO_LEJOS : constrain(rangoActual, RANGO_CERCA, RANGO_LEJOS);
   unsigned long pausa = map(r, RANGO_CERCA, RANGO_LEJOS, PAUSA_CERCA, PAUSA_LEJOS);
   unsigned int frecuencia = map(r, RANGO_CERCA, RANGO_LEJOS, FRECUENCIA_CERCA, FRECUENCIA_LEJOS);
 
   if (ultimoPitido == 0 || millis() - ultimoPitido >= pausa + DURACION_PITIDO) {
     tone(BUZZER, frecuencia, DURACION_PITIDO);
     ultimoPitido = millis();
+    Serial.print("   beep rango=");
+    Serial.print(r);
+    Serial.print(" frec=");
+    Serial.println(frecuencia);
   }
 }
