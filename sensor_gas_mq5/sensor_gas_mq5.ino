@@ -1,8 +1,9 @@
 // Sensor de gas MQ-5 Grupo Milena
-// Placa: Arduino Nano (mismos pines que el Uno)
+// Placa: Arduino Uno
 const int sensorGas = 2; // Pin DO del MQ-5
 const int buzzer = 8;    // Buzzer PASIVO (necesita tone())
-const int led = 13;      // LED (en el Nano tambien es el LED de la placa)
+const int led = 13;      // LED de alarma de gas
+const int ledEncendido = 7; // LED que indica que el equipo esta encendido
 
 const unsigned long TIEMPO_CALENTAMIENTO = 60000; // 1 minuto para que el MQ-5 se estabilice
 
@@ -12,6 +13,10 @@ void setup() {
   pinMode(sensorGas, INPUT);
   pinMode(buzzer, OUTPUT);
   pinMode(led, OUTPUT);
+  pinMode(ledEncendido, OUTPUT);
+
+  // LED de encendido: queda prendido mientras la placa funcione
+  digitalWrite(ledEncendido, HIGH);
 
   Serial.begin(9600);
 
