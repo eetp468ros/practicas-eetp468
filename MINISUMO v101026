@@ -1,0 +1,134 @@
+/*version 10OCT2026*/
+/*Valores modificables para el Robot*/
+int VelocidadBusqueda = 100;         /*-----> Valor entre 70 y 255<----*/
+int VelocidadAtaque = 230;           /*-----> Valor entre 70 y 255<----*/
+int VelocidadGiro = 170;             /*-----> Antes 80 Valor entre 70 y 255<----*/
+int Distanciaoponente =10;          /*-----> Valor entre 10 y 150<----*/
+/*----------------------------------*/
+
+/*No modificar el siguiete programa*/
+#include <MotorDriver.h>
+
+MotorDriver mD;
+MotorDriver mI;
+
+#define PinLienaI A0
+#define PinLienaD A1 
+#define Echo 10    //Pin servo de arriba (Servo_1)
+#define Trigger 9  //Pin servo de Abajo  (Servo_2)
+#define MotorDerecho 3 
+#define MotorIzquierdo 4 
+
+const unsigned long tiempoFrenado = 300; // tiempo retroceso
+int tiempoLimite = 500;
+//int millisViejo = 0;
+unsigned long millisViejo = 0;
+int Vel =100; //130 antes 80
+
+
+void setup() {
+  //Serial.begin(9600);   //iniciar puerto serie
+  pinMode(PinLienaI, INPUT);  //definir pin como entrada
+  pinMode(PinLienaD, INPUT);  //definir pin como entrada
+  pinMode(Trigger, OUTPUT); //Configuramoms el pin de "trigger" como salida
+  pinMode(Echo, INPUT);  //Configuramoms el pin de "echo" como entrada
+  digitalWrite(Trigger, LOW);//Ponemos en voltaje bajo(0V) el pin de "trigger"
+
+}
+
+void loop() {
+  if(millis() >= 5000){
+    while(1){
+      if(SensorLineaD()==1 and SensorLineaI()==1){
+        //Serial.println("Giro Ambos"); 
+        millisViejo=millis();
+        while((millis()-millisViejo)<tiempoFrenado){Atras();}//vamos para atras 
+        millisViejo=millis();
+        while((millis()-millisViejo)<tiempoLimite){
+          GiroDer();
+          while(SensorOponente()==1){Ataque();}
+        }
+      }
+      else if(SensorLineaD()==1 or SensorLineaI()==1){
+        if(SensorLineaD()==1){
+          //Serial.println("Giro Derecho"); 
+          millisViejo=millis();
+          while((millis()-millisViejo)<tiempoFrenado){Atras();}//vamos para atras 
+          millisViejo=millis();
+          while((millis()-millisViejo)<tiempoLimite){
+            GiroDer();
+            while(SensorOponente()==1){Ataque();}
+          }
+        }
+        if(SensorLineaI()==1){
+          //Serial.println("Giro Izquierdo"); 
+          millisViejo=millis();
+          while((millis()-millisViejo)<tiempoFrenado){Atras();}//vamos para atras 
+          millisViejo=millis();
+          while((millis()-millisViejo)<tiempoLimite){
+            GiroIzq();
+            while(SensorOponente()==1){Ataque();}
+          }
+        }
+      }
+      Busqueda();
+      while(SensorOponente()==1){Ataque();}
+    }//while
+  }//If
+} //Loop
+
+void Busqueda(){
+  mD.motor(MotorDerecho,FORWARD, VelocidadBusqueda);
+  mI.motor(MotorIzquierdo,FORWARD, VelocidadBusqueda);
+}
+
+void Ataque(){
+  mD.motor(MotorDerecho,FORWARD, VelocidadAtaque);
+  mI.motor(MotorIzquierdo,FORWARD, VelocidadAtaque);
+}
+
+void GiroIzq(){
+  mD.motor(MotorDerecho,FORWARD, VelocidadGiro);
+  mI.motor(MotorIzquierdo,BACKWARD, VelocidadGiro);
+}
+
+void GiroDer(){
+  mD.motor(MotorDerecho,BACKWARD, VelocidadGiro);
+  mI.motor(MotorIzquierdo,FORWARD, VelocidadGiro);
+}
+
+void Atras(){
+  mD.motor(MotorDerecho,BACKWARD, 255);
+  mI.motor(MotorIzquierdo,BACKWARD, 255);
+}
+
+int SensorLineaI(){
+    if (digitalRead(PinLienaI) == LOW){
+      delay(1);
+      if(digitalRead(PinLienaI) == LOW){return 1;}
+    }
+    else{return 0;}
+}
+
+int SensorLineaD(){
+  if (digitalRead(PinLienaD) == LOW){
+    delay(1);
+    if(digitalRead(PinLienaD) == LOW){return 1;}
+  }
+  else{return 0;}
+}
+
+int SensorOponente(){
+  unsigned long t; 
+  float d; 
+
+  digitalWrite(Trigger, HIGH);
+  delayMicroseconds(5); /*antes 10*/
+  digitalWrite(Trigger, LOW);
+  
+  t = pulseIn(Echo, HIGH, 20000);        
+  d = t * 0.000001 * 34300.0 / 2.0; 
+
+  if (d <= Distanciaoponente){return 1;}
+  return 0;
+}
