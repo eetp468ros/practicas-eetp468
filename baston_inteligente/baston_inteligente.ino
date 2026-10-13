@@ -11,7 +11,7 @@
 const int TRIG = 9;
 const int ECHO = 10;
 const int BUZZER = 8;   // Buzzer PASIVO (necesita tone())
-const int MOTOR = 5;    // Pin PWM -> base del transistor (resistencia 1k)
+const int MOTOR = 5;    // Pin PWM -> base del transistor 2N2222 (resistencia 470)
 
 // --- Zonas de distancia (en cm) ---
 const int DIST_MUY_CERCA = 30;   // Menos de esto: tono continuo + vibracion maxima
@@ -21,10 +21,9 @@ const unsigned long PAUSA_LEJOS = 800;   // ms entre pitidos lejos
 const unsigned long DURACION_PITIDO = 50;
 const unsigned int FRECUENCIA_CERCA = 2500; // Hz
 const unsigned int FRECUENCIA_LEJOS = 1000; // Hz
-// Motor de 3V (4x8mm) alimentado con 5V: el PWM se limita a ~60%
-// para que reciba en promedio unos 3V y no se dañe. NO subir de 153.
-const int VIBRACION_MIN = 70;   // PWM minimo para que el motor arranque (ajustar)
-const int VIBRACION_MAX = 150;  // ~2,9V promedio
+// Motor 4x8mm (1V a 6V, 250 mA a 3V) alimentado con 5V: puede usar todo el rango
+const int VIBRACION_MIN = 60;   // PWM minimo para que el motor arranque (~1,2V, ajustar)
+const int VIBRACION_MAX = 255;  // 5V
 
 const unsigned long INTERVALO_MEDICION = 60; // ms entre mediciones (minimo recomendado del HC-SR04)
 
