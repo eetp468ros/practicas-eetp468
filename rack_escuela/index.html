@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'">
+<title>Mi Datacenter Escolar</title>
+<style>
+:root{
+  --bg:#f3f5f9; --panel:#ffffff; --panel2:#eef2f8; --line:#cfd7e4;
+  --tx:#152033; --tx2:#4b5873; --acc:#1d6fd6; --accbg:#e1edff;
+  --bad:#c62b3c;
+  --room:#dfe4ec; --rack:#2a3142; --rail:#4a5368; --tray:#9aa4b5;
+  --utp:#1d6fd6; --fibra:#e98b00; --elec:#d42a2a;
+  --f:"Segoe UI",system-ui,-apple-system,sans-serif;
+}
+:root[data-theme="dark"]{
+  --bg:#10151f; --panel:#1a2232; --panel2:#222c40; --line:#34425d;
+  --tx:#eef2fa; --tx2:#a9b6cf; --acc:#5aa8ff; --accbg:#17355a;
+  --room:#151c29; --rack:#0b0f17; --rail:#3a4458; --tray:#4a5468;
+  --utp:#4c9bff; --fibra:#ffb020; --elec:#ff5c5c;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.4 var(--f)}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+
+header{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:10px 16px;background:var(--panel);border-bottom:2px solid var(--line)}
+header h1{font-size:20px;margin:0 8px 0 0}
+header h1 small{display:block;font-size:12px;font-weight:500;color:var(--tx2)}
+.sp{flex:1}
+.btn{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:8px 11px;font-weight:600;font-size:15px}
+.btn:hover{border-color:var(--acc)}
+.btn.acc{background:var(--acc);border-color:var(--acc);color:#fff}
+.btn.sm{padding:5px 9px;font-size:14px}
+
+main{padding:16px;max-width:1500px;margin:0 auto}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px}
+.card h2{font-size:17px;margin:0 0 10px}
+.cols{display:grid;grid-template-columns:300px minmax(0,1fr) 320px;gap:16px;margin-top:16px;align-items:start}
+@media (max-width:1100px){.cols{grid-template-columns:1fr}}
+
+/* ---------- sala ---------- */
+#roomName{font-size:18px;font-weight:700;border:1px dashed transparent;background:none;padding:2px 6px;border-radius:6px;width:100%}
+#roomName:hover,#roomName:focus{border-color:var(--line);outline:none}
+#roomWrap{overflow-x:auto;padding-bottom:6px;margin-top:8px}
+#room{position:relative;display:flex;gap:18px;align-items:flex-start;width:max-content;min-width:100%;background:var(--room);border-radius:12px;padding:58px 18px 18px}
+#tray{position:absolute;left:10px;right:10px;top:10px;height:32px;border:3px solid var(--tray);border-top:0;border-radius:0 0 8px 8px;font-size:12px;color:var(--tx2);display:flex;align-items:flex-end;justify-content:flex-start;padding:0 0 2px 10px}
+.rk{width:430px;flex:0 0 auto}
+.rkHead{display:flex;align-items:center;gap:6px;margin-bottom:6px}
+.rkHead input{flex:1;font-weight:700;font-size:16px;border:1px dashed transparent;background:var(--panel);padding:4px 8px;border-radius:8px}
+.rkHead input:hover,.rkHead input:focus{border-color:var(--acc);outline:none}
+.rkBody{position:relative;background:var(--rack);border-radius:10px;padding:10px 28px}
+.rkBody::before,.rkBody::after{content:"";position:absolute;top:6px;bottom:6px;width:12px;background:repeating-linear-gradient(var(--rail) 0 5px,transparent 5px 10px);border-radius:3px}
+.rkBody::before{left:9px}.rkBody::after{right:9px}
+.slot{height:46px;border:1px dashed #ffffff22;border-radius:6px;margin:4px 0;display:flex;align-items:center;justify-content:center;color:#ffffff55;font-size:12px}
+.dev{position:relative;border-radius:7px;margin:4px 0;display:flex;align-items:center;gap:8px;padding:5px 8px;color:#fff;box-shadow:inset 0 0 0 2px #ffffff22}
+.dev .info{width:80px;flex:0 0 auto;cursor:pointer}
+.dev .info b{display:block;font-size:13px;line-height:1.15;word-break:break-word}
+.dev .info span{font-size:11px;opacity:.85}
+.dev .ports{display:flex;flex-wrap:wrap;gap:4px;flex:1}
+.dev .tools{display:flex;flex-direction:column;gap:1px}
+.dev .tools button{background:#ffffff26;border:0;border-radius:4px;color:#fff;font-size:10px;padding:1px 5px}
+.dev .tools button:hover{background:#ffffff4d}
+.port{position:relative;z-index:2;width:26px;height:26px;border-radius:5px;border:2px solid #ffffffaa;background:#0007;color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0}
+.port:hover{transform:scale(1.12)}
+.port.used{border-color:#fff;background:var(--c)}
+.port.pend{outline:4px solid #ffe14d;outline-offset:2px}
+.port.hl{outline:4px solid #fff;outline-offset:2px}
+.port.pw{border-radius:50%}
+.port.in{margin-left:auto}
+.addDev{width:100%;margin-top:6px}
+#cables{position:absolute;inset:0;pointer-events:none;overflow:visible;z-index:1}
+#cables path{fill:none;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;opacity:.9}
+#cables path.hl{stroke-width:8;opacity:1}
+#cables path.dim{opacity:.2}
+
+#hint{margin-top:10px;padding:10px 12px;border-radius:10px;background:var(--accbg);font-size:15px;min-height:44px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+#hint .grow{flex:1}
+
+/* ---------- paneles ---------- */
+.cab{display:flex;gap:8px;flex-wrap:wrap}
+.cab button{flex:1;border:2px solid var(--line);background:var(--panel2);border-radius:10px;padding:8px;font-weight:600;display:flex;align-items:center;gap:8px;justify-content:center}
+.cab button.on{border-color:var(--acc);background:var(--accbg)}
+.sw{display:inline-block;width:22px;height:8px;border-radius:4px;flex:0 0 auto}
+.legend{font-size:14px;color:var(--tx2);margin-top:10px}
+.legend p{margin:6px 0}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:6px 4px;border-bottom:1px solid var(--line);vertical-align:middle}
+th{font-size:12px;text-transform:uppercase;color:var(--tx2)}
+td small{color:var(--tx2)}
+tr.hl td{background:var(--accbg)}
+td input{width:100%;border:1px solid var(--line);background:var(--panel2);border-radius:6px;padding:4px 6px;font-size:14px}
+td .x{background:none;border:0;color:var(--bad);font-size:18px}
+.tag{font-size:11px;font-weight:700;padding:1px 6px;border-radius:8px;background:var(--fibra);color:#000;white-space:nowrap}
+.empty{color:var(--tx2);font-style:italic;font-size:14px}
+details{border-top:1px solid var(--line);padding:8px 0}
+details:first-of-type{border-top:0}
+summary{font-weight:700;cursor:pointer}
+details p{margin:6px 0 0;font-size:15px;color:var(--tx2)}
+
+/* ---------- ventanas ---------- */
+#veil{position:fixed;inset:0;background:#0008;display:none;align-items:center;justify-content:center;padding:16px;z-index:10}
+#veil.on{display:flex}
+.modal{background:var(--panel);border-radius:14px;padding:18px;max-width:580px;width:100%;max-height:90vh;overflow:auto}
+.modal h3{margin:0 0 12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
+.pick{border:0;border-radius:10px;color:#fff;padding:12px;text-align:left}
+.pick b{display:block}
+.pick span{font-size:13px;opacity:.9}
+.pick:disabled{opacity:.35;cursor:not-allowed}
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--tx);color:var(--bg);padding:10px 16px;border-radius:10px;font-weight:600;opacity:0;transition:.2s;pointer-events:none;z-index:20;max-width:90vw;text-align:center}
+#toast.on{opacity:1}
+
+/* ---------- imprimir ---------- */
+@media print{
+  header .btn,#hint,.dev .tools,.addDev,.rkHead .btn,#glos,#cabCard{display:none!important}
+  body{background:#fff}
+  .cols{display:block}
+  .card{border:0;padding:0;margin-bottom:16px}
+  #roomWrap{overflow:visible}
+  #room{-webkit-print-color-adjust:exact;print-color-adjust:exact;zoom:.6}
+  td input{border:0;background:none}
+  td .x{display:none}
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>🏢 Mi Datacenter Escolar<small>Racks, equipos y cableado: aprendé cómo se arma un datacenter</small></h1>
+  <div class="sp"></div>
+  <button class="btn acc" id="bRack">➕ Agregar rack</button>
+  <button class="btn" id="bDemo">📘 Ejemplo</button>
+  <button class="btn" id="bNew">🧹 Empezar de cero</button>
+  <button class="btn" id="bSave">💾 Guardar archivo</button>
+  <button class="btn" id="bOpen">📂 Abrir archivo</button>
+  <button class="btn" id="bPrint">🖨️ Imprimir</button>
+  <button class="btn" id="bTheme" title="Tema claro / oscuro">🌙</button>
+  <input type="file" id="file" accept=".json,application/json" hidden>
+</header>
+
+<main>
+  <section class="card">
+    <input id="roomName" aria-label="Nombre de la sala">
+    <div id="roomWrap"><div id="room"><div id="tray">bandeja portacables (por acá pasan los cables entre racks)</div><svg id="cables"></svg></div></div>
+    <div id="hint"></div>
+  </section>
+
+  <div class="cols">
+    <div class="card" id="cabCard">
+      <h2>1. Elegí el cable de red</h2>
+      <div class="cab" id="cab"></div>
+      <div class="legend">
+        <p><span class="sw" style="background:var(--elec)"></span> El cable <b>eléctrico</b> se elige solo al unir una toma ⚡ de la UPS con la entrada ⚡ de un equipo del mismo rack.</p>
+        <p>💡 Entre racks distintos conviene usar <b>fibra óptica</b>.</p>
+      </div>
+    </div>
+    <div class="card">
+      <h2>2. Conexiones (<span id="nLinks">0</span>)</h2>
+      <table><thead><tr><th>Desde</th><th>Hasta</th><th>Etiqueta</th><th></th></tr></thead><tbody id="list"></tbody></table>
+    </div>
+    <div class="card" id="glos">
+      <h2>📖 Glosario</h2>
+      <div id="glosList"></div>
+    </div>
+  </div>
+</main>
+
+<div id="veil"><div class="modal" id="modal"></div></div>
+<div id="toast"></div>
+
+<script>
+"use strict";
+const KEY="datacenterEscolar.v1";
+const RACK_U=12, MAX_RACKS=4;
+
+// Cada tipo de equipo: bocas de red, si tiene entrada de corriente y cuántas unidades (U) ocupa
+const TYPES={
+  panel: {n:"Patch panel",          ports:12, power:false, u:1, color:"#5b6475",
+          d:"Panel pasivo donde terminan los cables que llegan de otros lugares. No necesita corriente: solo une cables."},
+  core:  {n:"Switch core",          ports:8,  power:true,  u:1, color:"#17407e",
+          d:"Switch central del datacenter. Une a todos los demás switches; por él pasa casi todo el tráfico."},
+  switch:{n:"Switch de rack (ToR)", ports:8,  power:true,  u:1, color:"#1f6fd0",
+          d:"Switch «Top of Rack»: va arriba de cada rack y conecta los servidores de ese rack con el switch core."},
+  router:{n:"Router / Firewall",    ports:4,  power:true,  u:1, color:"#7a3fb8",
+          d:"Une el datacenter con Internet y filtra lo que entra y sale (firewall)."},
+  server:{n:"Servidor",             ports:2,  power:true,  u:1, color:"#1d8a55",
+          d:"Computadora que da servicios: páginas web, correo, bases de datos… Suele tener 2 bocas para no quedarse sin red si una falla."},
+  nas:   {n:"Almacenamiento (NAS)", ports:2,  power:true,  u:2, color:"#0e7f84",
+          d:"Equipo lleno de discos donde se guardan los datos y las copias de seguridad."},
+  ups:   {n:"UPS",                  ports:0, outlets:4, power:false, u:2, color:"#a23b2a",
+          d:"Batería que mantiene los equipos encendidos si se corta la luz. Sus tomas ⚡ alimentan a los equipos de su rack."}
+};
+const CABLES={
+  utp:  {n:"Cable UTP (cobre)", v:"--utp"},
+  fibra:{n:"Fibra óptica",       v:"--fibra"},
+  elec: {n:"Eléctrico",          v:"--elec"}
+};
+const GLOSARIO=[
+  ["Datacenter","Edificio o sala donde se concentran servidores, almacenamiento y equipos de red. Allí «viven» las páginas web, las apps y la nube."],
+  ["Rack","Mueble metálico donde se atornillan los equipos. Se mide en unidades U (1U = 4,45 cm de alto). En este simulador cada rack tiene "+RACK_U+"U; los reales suelen tener 42U."],
+  ["Fila de racks","En un datacenter los racks se ponen en fila, uno al lado del otro, para ordenar el cableado y el aire frío."],
+  ["Bandeja portacables","Canaleta que pasa por encima (o por debajo del piso) de los racks. Por ahí van los cables que unen un rack con otro."],
+  ["Boca o puerto","Conector donde se enchufa un cable. Los cuadrados son bocas de red; los círculos ⚡ son de corriente."],
+  ...Object.values(TYPES).map(t=>[t.n,t.d]),
+  ["Cable UTP","Cable de cobre con 4 pares trenzados y conector RJ45. Se usa para distancias cortas (hasta 100 m), por ejemplo dentro del mismo rack."],
+  ["Fibra óptica","Transmite luz por un hilo de vidrio. Llega más lejos y más rápido que el cobre y no le afectan las interferencias: es la que une los racks entre sí."],
+  ["Redundancia","Tener todo «por duplicado» (2 cables, 2 fuentes, 2 switches) para que si algo falla el servicio siga funcionando."],
+  ["Etiqueta","Nombre que se le pone a cada cable (por ejemplo «Servidor web → ToR B»). En un datacenter con miles de cables, sin etiquetas es imposible encontrar una falla."]
+];
+
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const nid=p=>p+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+
+/* ---------- datos ---------- */
+let S, cable="utp", pend=null, sel=null;
+
+function demo(){
+  const d=(type,name)=>({id:nid("e"),type,name});
+  const pp=d("panel","Patch panel oficinas"), rt=d("router","Firewall a Internet"), co=d("core","Switch core"), u1=d("ups","UPS A");
+  const tb=d("switch","Switch ToR B"), web=d("server","Servidor web"), db=d("server","Servidor de datos"), u2=d("ups","UPS B");
+  const tc=d("switch","Switch ToR C"), nas=d("nas","NAS copias"), u3=d("ups","UPS C");
+  const L=(a,pa,b,pb,c,label)=>({id:nid("l"),a:{e:a.id,p:pa},b:{e:b.id,p:pb},cable:c,label});
+  return {name:"Sala de servidores de la escuela",theme:"light",racks:[
+    {id:nid("r"),name:"Rack A · Red",items:[pp,rt,co,u1]},
+    {id:nid("r"),name:"Rack B · Servidores",items:[tb,web,db,u2]},
+    {id:nid("r"),name:"Rack C · Almacenamiento",items:[tc,nas,u3]}
+  ],links:[
+    L(rt,1,pp,12,"fibra","Entrada de Internet"),
+    L(rt,4,co,1,"utp","Firewall → Core"),
+    L(pp,1,co,2,"utp","Oficinas"),
+    L(co,7,tb,8,"fibra","Core → ToR B"),
+    L(co,8,tc,8,"fibra","Core → ToR C"),
+    L(web,1,tb,1,"utp","Servidor web"),
+    L(db,1,tb,2,"utp","Servidor de datos"),
+    L(nas,1,tc,1,"utp","NAS"),
+    L(u1,"P1",rt,"P","elec",""), L(u1,"P2",co,"P","elec",""),
+    L(u2,"P1",tb,"P","elec",""), L(u2,"P2",web,"P","elec",""), L(u2,"P3",db,"P","elec",""),
+    L(u3,"P1",tc,"P","elec",""), L(u3,"P2",nas,"P","elec","")
+  ]};
+}
+function blank(){return {name:"Mi datacenter",theme:S?S.theme:"light",racks:[{id:nid("r"),name:"Rack A",items:[]}],links:[]};}
+
+function valid(d){
+  if(!d||typeof d!=="object"||!Array.isArray(d.links))return null;
+  const raw=Array.isArray(d.racks)?d.racks:Array.isArray(d.items)?[{name:d.name,items:d.items}]:null;
+  if(!raw)return null;
+  const ok=new Set();
+  const racks=raw.slice(0,MAX_RACKS).filter(r=>r&&Array.isArray(r.items)).map((r,i)=>({
+    id:typeof r.id==="string"?r.id:nid("r"),
+    name:String(r.name||"Rack "+"ABCD"[i]).slice(0,40),
+    items:r.items.filter(it=>it&&TYPES[it.type]&&typeof it.id==="string")
+      .map(it=>(ok.add(it.id),{id:it.id,type:it.type,name:String(it.name||TYPES[it.type].n).slice(0,40)}))
+  }));
+  if(!racks.length)return null;
+  const links=d.links.filter(l=>l&&l.a&&l.b&&ok.has(l.a.e)&&ok.has(l.b.e)&&CABLES[l.cable])
+    .map(l=>({id:String(l.id||nid("l")),a:{e:l.a.e,p:l.a.p},b:{e:l.b.e,p:l.b.p},cable:l.cable,label:String(l.label||"").slice(0,40)}));
+  return {name:String(d.name||"Mi datacenter").slice(0,60),theme:d.theme==="dark"?"dark":"light",racks,links};
+}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+function load(){try{return valid(JSON.parse(localStorage.getItem(KEY)));}catch(e){return null;}}
+
+/* ---------- utilidades ---------- */
+const rackOf=id=>S.racks.find(r=>r.items.some(i=>i.id===id));
+const item=id=>{const r=rackOf(id);return r&&r.items.find(i=>i.id===id);};
+const usedU=r=>r.items.reduce((s,i)=>s+TYPES[i.type].u,0);
+const linkAt=(e,p)=>S.links.find(l=>(l.a.e===e&&l.a.p==p)||(l.b.e===e&&l.b.p==p));
+const isPower=p=>typeof p==="string";
+const crosses=l=>rackOf(l.a.e)!==rackOf(l.b.e);
+function portText(p){return p==="P"?"entrada ⚡":isPower(p)?"toma ⚡"+p.slice(1):"boca "+p;}
+function portName(end){const it=item(end.e);return it?it.name+" · "+portText(end.p):"?";}
+function portCell(end){const r=rackOf(end.e);return `${esc(portName(end))}<br><small>${esc(r?r.name:"")}</small>`;}
+function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("on");clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove("on"),3000);}
+
+/* ---------- dibujo ---------- */
+function render(){
+  document.documentElement.dataset.theme=S.theme;
+  $("#bTheme").textContent=S.theme==="dark"?"☀️":"🌙";
+  $("#roomName").value=S.name;
+  $("#bRack").disabled=S.racks.length>=MAX_RACKS;
+
+  document.querySelectorAll("#room .rk").forEach(n=>n.remove());
+  const svg=$("#cables");
+  S.racks.forEach((r,ri)=>{
+    let h=`<div class="rkHead"><input data-rname="${r.id}" value="${esc(r.name)}" maxlength="40" aria-label="Nombre del rack">
+      <button class="btn sm" data-rdel="${r.id}" title="Quitar este rack">✕</button></div><div class="rkBody">`;
+    r.items.forEach((it,i)=>{
+      const t=TYPES[it.type];
+      let ports="";
+      for(let p=1;p<=t.ports;p++)ports+=portBtn(it,p,String(p));
+      for(let p=1;p<=(t.outlets||0);p++)ports+=portBtn(it,"P"+p,"⚡"+p,true);
+      if(t.power)ports+=portBtn(it,"P","⚡",true);
+      h+=`<div class="dev" style="background:${t.color};min-height:${t.u*46+(t.u-1)*8}px">
+        <div class="info" data-info="${it.id}" title="Ver qué es / cambiar el nombre"><b>${esc(it.name)}</b><span>${t.n} · ${t.u}U</span></div>
+        <div class="ports">${ports}</div>
+        <div class="tools">
+          <button data-up="${it.id}" title="Subir" ${i===0?"disabled":""}>▲</button>
+          <button data-del="${it.id}" title="Quitar del rack">✕</button>
+          <button data-down="${it.id}" title="Bajar" ${i===r.items.length-1?"disabled":""}>▼</button>
+        </div></div>`;
+    });
+    for(let u=usedU(r);u<RACK_U;u++)h+=`<div class="slot">libre (1U)</div>`;
+    h+=`</div><button class="btn addDev" data-add="${r.id}" ${usedU(r)>=RACK_U?"disabled":""}>＋ Agregar equipo a este rack</button>`;
+    const div=document.createElement("div");div.className="rk";div.innerHTML=h;
+    $("#room").insertBefore(div,svg);
+  });
+
+  renderList();
+  renderHint();
+  requestAnimationFrame(drawCables);
+  save();
+}
+function portBtn(it,p,txt,pw){
+  const l=linkAt(it.id,p);
+  const cls=["port"];
+  if(pw)cls.push("pw");
+  if(p==="P")cls.push("in");
+  if(l)cls.push("used");
+  if(pend&&pend.e===it.id&&pend.p==p)cls.push("pend");
+  if(l&&sel===l.id)cls.push("hl");
+  const style=l?` style="--c:var(${CABLES[l.cable].v})"`:"";
+  const tip=pw?(p==="P"?"Entrada de corriente":"Toma de corriente "+p.slice(1)):"Boca "+p;
+  return `<button class="${cls.join(" ")}"${style} data-e="${it.id}" data-p="${p}" title="${tip}">${txt}</button>`;
+}
+function drawCables(){
+  const svg=$("#cables"),box=$("#room").getBoundingClientRect();
+  svg.setAttribute("viewBox",`0 0 ${box.width} ${box.height}`);
+  const center=end=>{
+    const b=document.querySelector(`.port[data-e="${end.e}"][data-p="${end.p}"]`);
+    if(!b)return null;const r=b.getBoundingClientRect();
+    return {x:r.left-box.left+r.width/2,y:r.top-box.top+r.height/2};
+  };
+  let k=0;
+  svg.innerHTML=S.links.map(l=>{
+    const a=center(l.a),b=center(l.b); if(!a||!b)return "";
+    let d;
+    if(crosses(l)){
+      // sube a la bandeja, la recorre y baja al otro rack
+      const ty=18+(k++%5)*5,r=8,s=b.x>a.x?1:-1;
+      d=`M${a.x},${a.y} L${a.x},${ty+r} Q${a.x},${ty} ${a.x+s*r},${ty} L${b.x-s*r},${ty} Q${b.x},${ty} ${b.x},${ty+r} L${b.x},${b.y}`;
+    }else{
+      const bend=Math.max(26,Math.abs(b.y-a.y)*0.6);
+      d=`M${a.x},${a.y} C${a.x},${a.y+bend} ${b.x},${b.y+bend} ${b.x},${b.y}`;
+    }
+    const cls=sel?(sel===l.id?"hl":"dim"):"";
+    return `<path class="${cls}" d="${d}" style="stroke:var(${CABLES[l.cable].v})"/>`;
+  }).join("");
+}
+function renderList(){
+  $("#nLinks").textContent=S.links.length;
+  $("#list").innerHTML=S.links.length?S.links.map(l=>`
+    <tr class="${sel===l.id?"hl":""}" data-row="${l.id}">
+      <td><span class="sw" style="background:var(${CABLES[l.cable].v})"></span> ${portCell(l.a)}</td>
+      <td>${portCell(l.b)}${crosses(l)?' <span class="tag">entre racks</span>':""}</td>
+      <td><input data-lab="${l.id}" value="${esc(l.label)}" placeholder="Ej: Core → ToR B" maxlength="40"></td>
+      <td><button class="x" data-rm="${l.id}" title="Quitar cable">🗑</button></td>
+    </tr>`).join(""):`<tr><td colspan="4" class="empty">Todavía no hay cables. Tocá una boca y después otra (del mismo rack o de otro) para conectarlas.</td></tr>`;
+}
+function renderHint(){
+  const h=$("#hint");
+  const any=S.racks.some(r=>r.items.length);
+  if(pend){
+    h.innerHTML=`<span class="grow">🟡 Elegiste <b>${esc(portName(pend))}</b> (${esc(rackOf(pend.e).name)}). Ahora tocá la boca de destino, en este rack o en otro.</span><button class="btn sm" id="hCancel">Cancelar</button>`;
+  }else if(sel){
+    const l=S.links.find(x=>x.id===sel);
+    h.innerHTML=`<span class="grow">🔗 <b>${CABLES[l.cable].n}</b>${crosses(l)?" (entre racks)":""}: ${esc(portName(l.a))} ↔ ${esc(portName(l.b))}${l.label?` · «${esc(l.label)}»`:""}</span><button class="btn sm" id="hDel">🗑 Quitar cable</button><button class="btn sm" id="hCancel">Listo</button>`;
+  }else if(!any){
+    h.innerHTML=`<span class="grow">👋 La sala está vacía. Usá <b>＋ Agregar equipo</b> debajo de cada rack, o mirá el <b>📘 Ejemplo</b>.</span>`;
+  }else{
+    h.innerHTML=`<span class="grow">💡 Tocá una boca para empezar un cable y otra para terminarlo. Tocá el nombre de un equipo para saber qué es.</span>`;
+  }
+}
+
+/* ---------- conectar ---------- */
+function clickPort(e,p){
+  const here={e,p:/^\d+$/.test(p)?+p:p};
+  const l=linkAt(e,here.p);
+  if(!pend){
+    if(l){sel=sel===l.id?null:l.id;render();return;}
+    sel=null;pend=here;render();return;
+  }
+  if(pend.e===e&&pend.p==here.p){pend=null;render();return;}
+  if(l){toast("Esa boca ya tiene un cable. Elegí otra libre.");return;}
+  const a=pend,b=here;
+  if(a.e===b.e){toast("No se puede conectar un equipo consigo mismo.");return;}
+  const pa=isPower(a.p),pb=isPower(b.p);
+  if(pa!==pb){toast("⚡ No se mezcla corriente con datos: une una toma de corriente con otra de corriente.");return;}
+  const between=rackOf(a.e)!==rackOf(b.e);
+  let c=cable;
+  if(pa){
+    const outA=a.p!=="P",outB=b.p!=="P";
+    if(outA===outB){toast(outA?"Hay que unir una toma de la UPS con la entrada ⚡ de un equipo.":"Las dos son entradas: una tiene que ser una toma de la UPS.");return;}
+    if(between){toast("⚡ Cada rack tiene su propia UPS: conectá la corriente dentro del mismo rack.");return;}
+    c="elec";
+  }
+  const nl={id:nid("l"),a,b,cable:c,label:""};
+  S.links.push(nl);pend=null;sel=nl.id;render();
+  toast(between&&c==="utp"?"✅ Conectado. Consejo: entre racks se suele usar fibra óptica.":"✅ Cable conectado. Podés ponerle una etiqueta en la lista.");
+}
+function removeLink(id){S.links=S.links.filter(l=>l.id!==id);if(sel===id)sel=null;render();}
+function dropLinksOf(ids){S.links=S.links.filter(l=>!ids.has(l.a.e)&&!ids.has(l.b.e));if(pend&&ids.has(pend.e))pend=null;sel=null;}
+
+/* ---------- ventanas ---------- */
+function openModal(html){$("#modal").innerHTML=html;$("#veil").classList.add("on");}
+function closeModal(){$("#veil").classList.remove("on");}
+$("#veil").addEventListener("click",ev=>{if(ev.target.id==="veil"||ev.target.dataset.close!==undefined)closeModal();});
+
+function addDialog(r){
+  const free=RACK_U-usedU(r);
+  openModal(`<h3>➕ ¿Qué equipo agregás a «${esc(r.name)}»?</h3>
+    <p style="margin:0 0 12px;color:var(--tx2)">Quedan <b>${free}U</b> libres en este rack.</p>
+    <div class="grid">${Object.entries(TYPES).map(([k,t])=>`
+      <button class="pick" data-type="${k}" data-rack="${r.id}" style="background:${t.color}" ${t.u>free?"disabled":""}>
+        <b>${t.n}</b><span>${t.ports?t.ports+" bocas de red":t.outlets+" tomas ⚡"} · ${t.u}U</span></button>`).join("")}</div>
+    <p style="text-align:right;margin:14px 0 0"><button class="btn" data-close>Cerrar</button></p>`);
+}
+function renameDialog(it){
+  const t=TYPES[it.type];
+  openModal(`<h3>${esc(t.n)}</h3><p style="color:var(--tx2);margin-top:0">${esc(t.d)}</p>
+    <label>Nombre del equipo<br><input id="nm" value="${esc(it.name)}" maxlength="40" style="width:100%;padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--panel2);margin-top:4px"></label>
+    <p style="text-align:right;margin:14px 0 0"><button class="btn" data-close>Cancelar</button> <button class="btn acc" id="nmOk">Guardar</button></p>`);
+  const inp=$("#nm");inp.focus();inp.select();
+  const ok=()=>{it.name=inp.value.trim()||t.n;closeModal();render();};
+  $("#nmOk").onclick=ok;inp.onkeydown=e=>{if(e.key==="Enter")ok();};
+}
+
+/* ---------- eventos ---------- */
+$("#room").addEventListener("click",ev=>{
+  const b=ev.target.closest("button,[data-info]");if(!b)return;
+  const ds=b.dataset;
+  if(ds.e){clickPort(ds.e,ds.p);return;}
+  if(ds.info){renameDialog(item(ds.info));return;}
+  if(ds.add){addDialog(S.racks.find(r=>r.id===ds.add));return;}
+  if(ds.rdel){
+    const r=S.racks.find(x=>x.id===ds.rdel);
+    if(r.items.length&&!confirm(`¿Quitar «${r.name}» con todos sus equipos y cables?`))return;
+    S.racks=S.racks.filter(x=>x!==r);if(!S.racks.length)S=blank();
+    dropLinksOf(new Set(r.items.map(i=>i.id)));render();return;
+  }
+  if(ds.del){
+    const it=item(ds.del),n=S.links.filter(l=>l.a.e===it.id||l.b.e===it.id).length;
+    if(n&&!confirm(`«${it.name}» tiene ${n} cable(s). ¿Quitarlo del rack junto con sus cables?`))return;
+    const r=rackOf(it.id);r.items=r.items.filter(i=>i!==it);
+    dropLinksOf(new Set([it.id]));render();return;
+  }
+  const id=ds.up||ds.down;
+  if(id){
+    const r=rackOf(id),i=r.items.findIndex(x=>x.id===id),j=ds.up?i-1:i+1;
+    [r.items[i],r.items[j]]=[r.items[j],r.items[i]];render();
+  }
+});
+$("#room").addEventListener("input",ev=>{
+  const r=S.racks.find(x=>x.id===ev.target.dataset.rname);
+  if(r){r.name=ev.target.value;save();renderList();}
+});
+$("#modal").addEventListener("click",ev=>{
+  const b=ev.target.closest("[data-type]");if(!b)return;
+  const t=TYPES[b.dataset.type],r=S.racks.find(x=>x.id===b.dataset.rack);
+  const same=S.racks.reduce((s,x)=>s+x.items.filter(i=>i.type===b.dataset.type).length,0);
+  r.items.push({id:nid("e"),type:b.dataset.type,name:t.n+(same?" "+(same+1):"")});
+  closeModal();render();toast("Agregaste: "+t.n);
+});
+$("#hint").addEventListener("click",ev=>{
+  if(ev.target.id==="hCancel"){pend=null;sel=null;render();}
+  if(ev.target.id==="hDel")removeLink(sel);
+});
+$("#list").addEventListener("click",ev=>{
+  const rm=ev.target.closest("[data-rm]");if(rm){removeLink(rm.dataset.rm);return;}
+  const row=ev.target.closest("[data-row]");
+  if(row&&!ev.target.matches("input")){pend=null;sel=sel===row.dataset.row?null:row.dataset.row;render();}
+});
+$("#list").addEventListener("input",ev=>{
+  const l=S.links.find(x=>x.id===ev.target.dataset.lab);
+  if(l){l.label=ev.target.value;save();if(sel===l.id)renderHint();}
+});
+$("#roomName").addEventListener("input",ev=>{S.name=ev.target.value;save();});
+document.addEventListener("keydown",ev=>{if(ev.key==="Escape"){if($("#veil").classList.contains("on"))closeModal();else{pend=null;sel=null;render();}}});
+window.addEventListener("resize",()=>requestAnimationFrame(drawCables));
+
+$("#bRack").onclick=()=>{
+  if(S.racks.length>=MAX_RACKS)return;
+  S.racks.push({id:nid("r"),name:"Rack "+"ABCD"[S.racks.length],items:[]});render();
+  $("#roomWrap").scrollLeft=1e6;
+};
+$("#bDemo").onclick=()=>{if(S.racks.some(r=>r.items.length)&&!confirm("Se va a reemplazar tu sala por el ejemplo. ¿Seguir?"))return;const th=S.theme;S=demo();S.theme=th;pend=sel=null;render();};
+$("#bNew").onclick=()=>{if(S.racks.some(r=>r.items.length)&&!confirm("Se va a borrar toda la sala. ¿Seguir?"))return;S=blank();pend=sel=null;render();};
+$("#bPrint").onclick=()=>{pend=sel=null;render();setTimeout(()=>window.print(),100);};
+$("#bTheme").onclick=()=>{S.theme=S.theme==="dark"?"light":"dark";render();};
+$("#bSave").onclick=()=>{
+  const blob=new Blob([JSON.stringify(S,null,2)],{type:"application/json"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);
+  a.download=((S.name||"datacenter").replace(/[^\wáéíóúñ -]+/gi,"").trim().replace(/\s+/g,"_")||"datacenter")+".json";
+  a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+  toast("💾 Archivo descargado. Guardalo para seguir otro día.");
+};
+$("#bOpen").onclick=()=>$("#file").click();
+$("#file").onchange=ev=>{
+  const f=ev.target.files[0];if(!f)return;
+  f.text().then(txt=>{
+    let d=null;try{d=valid(JSON.parse(txt));}catch(e){}
+    if(!d){toast("Ese archivo no es una sala válida.");return;}
+    S=d;pend=sel=null;render();toast("📂 Sala abierta: "+S.name);
+  });
+  ev.target.value="";
+};
+
+$("#cab").innerHTML=["utp","fibra"].map(k=>`<button data-cab="${k}"><span class="sw" style="background:var(${CABLES[k].v})"></span>${CABLES[k].n}</button>`).join("");
+const markCab=()=>document.querySelectorAll("[data-cab]").forEach(b=>b.classList.toggle("on",b.dataset.cab===cable));
+$("#cab").addEventListener("click",ev=>{const b=ev.target.closest("[data-cab]");if(b){cable=b.dataset.cab;markCab();}});
+markCab();
+$("#glosList").innerHTML=GLOSARIO.map(([t,d])=>`<details><summary>${esc(t)}</summary><p>${esc(d)}</p></details>`).join("");
+
+S=load()||demo();
+render();
+</script>
+</body>
+</html>
