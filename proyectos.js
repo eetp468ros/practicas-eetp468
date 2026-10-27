@@ -36,7 +36,7 @@ window.PROYECTOS = [
       { texto: "Abrir simulador", url: "rack_escuela/index.html" },
       { texto: "Versión avanzada (energía)", url: "rack_escuela/avanzado.html" }
     ],
-    codigo: "https://github.com/martinlura/practicas-eetp468/tree/HEAD/rack_escuela"
+    codigo: "https://github.com/eetp468ros/practicas-eetp468/tree/HEAD/rack_escuela"
   },
 
   {
@@ -58,7 +58,7 @@ window.PROYECTOS = [
     imagen: "",
     galeria: [],
     enlaces: [],
-    codigo: "https://github.com/martinlura/practicas-eetp468/tree/HEAD/baston_inteligente"
+    codigo: "https://github.com/eetp468ros/practicas-eetp468/tree/HEAD/baston_inteligente"
   },
 
   {
@@ -80,7 +80,7 @@ window.PROYECTOS = [
     imagen: "",
     galeria: [],
     enlaces: [],
-    codigo: "https://github.com/martinlura/practicas-eetp468/blob/HEAD/MINISUMO%20v101026"
+    codigo: "https://github.com/eetp468ros/practicas-eetp468/blob/HEAD/MINISUMO%20v101026"
   },
 
   {
@@ -102,7 +102,7 @@ window.PROYECTOS = [
     imagen: "",
     galeria: [],
     enlaces: [],
-    codigo: "https://github.com/martinlura/practicas-eetp468/tree/HEAD/sensor_gas_mq5"
+    codigo: "https://github.com/eetp468ros/practicas-eetp468/tree/HEAD/sensor_gas_mq5"
   },
 
   {
@@ -124,7 +124,7 @@ window.PROYECTOS = [
     imagen: "proyectos/sensor_presencia/portada.jpg",
     galeria: [],
     enlaces: [],
-    codigo: "https://github.com/martinlura/practicas-eetp468/tree/HEAD/sensor_presencia"
+    codigo: "https://github.com/eetp468ros/practicas-eetp468/tree/HEAD/sensor_presencia"
   },
 
   {
@@ -146,7 +146,7 @@ window.PROYECTOS = [
     imagen: "",
     galeria: [],
     enlaces: [],
-    codigo: "https://github.com/martinlura/practicas-eetp468/tree/HEAD/barrido_buzzers"
+    codigo: "https://github.com/eetp468ros/practicas-eetp468/tree/HEAD/barrido_buzzers"
   }
 
   /* ---------- PLANTILLA: copiá desde la { hasta la }, pegala arriba
@@ -173,7 +173,7 @@ window.PROYECTOS = [
     enlaces: [
       { texto: "Video en YouTube", url: "https://..." }
     ],
-    codigo: "https://github.com/martinlura/practicas-eetp468/tree/HEAD/carpeta_del_proyecto"
+    codigo: "https://github.com/eetp468ros/practicas-eetp468/tree/HEAD/carpeta_del_proyecto"
   }
 
   ------------------------------------------------------------------------- */

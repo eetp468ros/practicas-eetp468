@@ -10,7 +10,7 @@ Ver la explicación sobre ramas y *pull requests* que acompaña este cambio.
 
 ## 2. Activar GitHub Pages
 
-1. Entrá a <https://github.com/martinlura/practicas-eetp468> → **Settings** → **Pages**.
+1. Entrá a <https://github.com/eetp468ros/practicas-eetp468> → **Settings** → **Pages**.
 2. En **Build and deployment** → **Source**, elegí **Deploy from a branch**.
 3. En **Branch**, elegí la rama principal y la carpeta **/ (root)**. Guardá con **Save**.
 4. En **Custom domain** tiene que aparecer `practicas.eetp468.edu.ar`
@@ -24,7 +24,7 @@ Hay que agregar en la zona DNS de `eetp468.edu.ar` este registro:
 
 | Tipo  | Nombre     | Valor                  | TTL      |
 |-------|------------|------------------------|----------|
-| CNAME | `practicas` | `martinlura.github.io.` | 3600 (o el que venga por defecto) |
+| CNAME | `practicas` | `eetp468ros.github.io.` | 3600 (o el que venga por defecto) |
 
 - No hay que tocar ningún otro registro: el sitio actual de la escuela sigue igual.
 - El cambio puede tardar desde unos minutos hasta 24 horas en verse.
