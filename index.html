@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Proyectos de Prácticas · EETP N° 468</title>
+<meta name="description" content="Proyectos de Prácticas Profesionalizantes de los alumnos de la EETP N° 468 «Ing. Luis B. Laporte», Rosario.">
+<link rel="icon" href="assets/logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --azul:#16307a; --azul2:#0d1f52; --celeste:#74acdf; --celeste2:#a9d0f2;
+  --ladrillo:#b4532a; --sol:#f6b40e;
+  --bg:#f4f7fc; --card:#ffffff; --tx:#14203b; --tx2:#55627d; --line:#dde5f1;
+  --sh:0 18px 40px -22px rgba(13,31,82,.45);
+  --fh:"Montserrat","Segoe UI",system-ui,sans-serif;
+  --f:"Inter","Segoe UI",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.55 var(--f)}
+a{color:inherit}
+img{max-width:100%;display:block}
+.wrap{max-width:1200px;margin:0 auto;padding:0 20px}
+
+/* ---------- barra superior ---------- */
+nav{position:fixed;top:0;left:0;right:0;z-index:30;transition:.25s}
+nav .wrap{display:flex;align-items:center;gap:14px;height:68px}
+nav.solid{background:rgba(13,31,82,.92);backdrop-filter:blur(10px);box-shadow:0 6px 24px -12px #000}
+.brand{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none;font-family:var(--fh);font-weight:800;line-height:1.1}
+.brand img{height:46px;width:auto;border-radius:4px;box-shadow:0 2px 10px #0006}
+.brand small{display:block;font:500 12px var(--f);opacity:.85}
+nav .sp{flex:1}
+nav .lnk{color:#fff;text-decoration:none;font-weight:600;font-size:15px;padding:8px 12px;border-radius:10px;opacity:.92}
+nav .lnk:hover{background:#ffffff22;opacity:1}
+@media (max-width:720px){nav .lnk.hide-m{display:none}.brand small{display:none}}
+
+/* ---------- portada ---------- */
+.hero{position:relative;min-height:88vh;display:flex;align-items:center;color:#fff;overflow:hidden;
+  background:
+    linear-gradient(115deg,rgba(13,31,82,.92) 0%,rgba(22,48,122,.78) 45%,rgba(116,172,223,.45) 100%),
+    url("assets/fondo.jpg") center/cover no-repeat,
+    radial-gradient(1200px 600px at 85% 20%,#2f63c4 0%,transparent 60%),
+    linear-gradient(160deg,#0d1f52,#16307a 55%,#2b5fae);
+}
+.hero::after{content:"";position:absolute;inset:auto 0 -1px 0;height:120px;background:linear-gradient(transparent,var(--bg))}
+.hero .grid-bg{position:absolute;inset:0;opacity:.13;background-image:linear-gradient(#fff 1px,transparent 1px),linear-gradient(90deg,#fff 1px,transparent 1px);background-size:44px 44px;mask-image:linear-gradient(90deg,transparent,#000 60%)}
+.hero .wrap{position:relative;z-index:2;padding-top:110px;padding-bottom:110px;display:grid;grid-template-columns:1.4fr 1fr;gap:40px;align-items:center}
+@media (max-width:900px){.hero .wrap{grid-template-columns:1fr}.hero .logoBig{display:none}}
+.kicker{display:inline-flex;align-items:center;gap:8px;background:#ffffff1f;border:1px solid #ffffff40;padding:6px 14px;border-radius:30px;font-size:13px;font-weight:600;letter-spacing:.4px;text-transform:uppercase}
+.kicker i{width:8px;height:8px;border-radius:50%;background:var(--sol);box-shadow:0 0 12px var(--sol)}
+.hero h1{font-family:var(--fh);font-weight:900;font-size:clamp(34px,5.4vw,64px);line-height:1.04;margin:18px 0 14px;letter-spacing:-.5px}
+.hero h1 span{background:linear-gradient(90deg,var(--celeste2),#fff 60%,var(--sol));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p.lead{font-size:clamp(16px,1.8vw,20px);max-width:620px;opacity:.92;margin:0 0 28px}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:12px;padding:13px 20px;font:700 15px var(--f);text-decoration:none;cursor:pointer;transition:.18s}
+.btn.pri{background:var(--sol);color:#1d1600;box-shadow:0 10px 24px -10px var(--sol)}
+.btn.pri:hover{transform:translateY(-2px)}
+.btn.sec{background:#ffffff1f;color:#fff;border:1px solid #ffffff55}
+.btn.sec:hover{background:#ffffff33}
+.stats{display:flex;gap:14px;flex-wrap:wrap;margin-top:34px}
+.stat{background:#ffffff17;border:1px solid #ffffff33;border-radius:14px;padding:12px 18px;min-width:120px;backdrop-filter:blur(4px)}
+.stat b{display:block;font:900 30px var(--fh)}
+.stat span{font-size:13px;opacity:.85}
+.logoBig{justify-self:center;position:relative}
+.logoBig img{width:min(300px,100%);border-radius:10px;box-shadow:0 30px 60px -20px #000c;transform:rotate(3deg);border:6px solid #fff}
+.logoBig::before{content:"";position:absolute;inset:-30px;border-radius:50%;background:radial-gradient(var(--celeste) 0%,transparent 65%);opacity:.5;z-index:-1}
+
+/* ---------- secciones ---------- */
+section{padding:30px 0 60px}
+.sh{display:flex;align-items:end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:18px}
+.sh h2{font:800 clamp(26px,3vw,36px) var(--fh);margin:0;color:var(--azul2)}
+.sh h2::after{content:"";display:block;width:64px;height:5px;border-radius:3px;margin-top:8px;background:linear-gradient(90deg,var(--celeste),var(--azul))}
+.sh p{margin:0;color:var(--tx2)}
+
+/* ---------- filtros ---------- */
+.filters{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;box-shadow:var(--sh);display:grid;gap:12px;position:sticky;top:78px;z-index:10}
+.frow{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.search{flex:1 1 260px;display:flex;align-items:center;gap:8px;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:0 12px}
+.search input{border:0;background:none;outline:none;font:inherit;padding:11px 0;width:100%}
+.search:focus-within{border-color:var(--celeste);box-shadow:0 0 0 3px #74acdf44}
+select{font:inherit;border:1px solid var(--line);background:var(--bg);border-radius:12px;padding:10px 12px;color:inherit}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--bg);border-radius:30px;padding:7px 13px;font:600 14px var(--f);cursor:pointer;color:var(--tx);display:inline-flex;gap:6px;align-items:center}
+.chip small{background:#00000012;border-radius:10px;padding:0 7px;font-size:12px}
+.chip.on{background:var(--azul);border-color:var(--azul);color:#fff}
+.chip.on small{background:#ffffff30}
+
+/* ---------- tarjetas ---------- */
+#grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:22px;margin-top:22px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:var(--sh);display:flex;flex-direction:column;cursor:pointer;transition:.22s;opacity:0;transform:translateY(16px);animation:up .5s forwards}
+.card:hover{transform:translateY(-6px);box-shadow:0 26px 50px -24px rgba(13,31,82,.6)}
+.card:focus-visible{outline:3px solid var(--celeste);outline-offset:3px}
+@keyframes up{to{opacity:1;transform:none}}
+.cover{position:relative;height:170px;overflow:hidden;background:var(--c1)}
+.cover img{width:100%;height:100%;object-fit:cover;transition:.4s}
+.card:hover .cover img{transform:scale(1.05)}
+.cover.gen{background:linear-gradient(135deg,var(--c1),var(--c2));display:flex;align-items:center;justify-content:center}
+.cover.gen::before{content:"";position:absolute;inset:0;opacity:.18;background-image:radial-gradient(#fff 1.5px,transparent 1.5px);background-size:18px 18px}
+.cover.gen .ic{font-size:64px;filter:drop-shadow(0 8px 16px #0005);position:relative}
+.cover .area{position:absolute;left:12px;top:12px;background:#000000a0;color:#fff;font-size:12px;font-weight:700;padding:4px 10px;border-radius:20px;backdrop-filter:blur(4px)}
+.cover .st{position:absolute;right:12px;top:12px;font-size:12px;font-weight:700;padding:4px 10px;border-radius:20px}
+.st.done{background:#16a34a;color:#fff}.st.wip{background:var(--sol);color:#1d1600}
+.cbody{padding:16px 18px 18px;display:flex;flex-direction:column;gap:8px;flex:1}
+.cbody h3{margin:0;font:800 19px/1.2 var(--fh);color:var(--azul2)}
+.cbody p{margin:0;color:var(--tx2);font-size:15px}
+.meta{margin-top:auto;padding-top:10px;display:flex;justify-content:space-between;gap:8px;font-size:13px;color:var(--tx2);border-top:1px dashed var(--line)}
+.tags{display:flex;gap:6px;flex-wrap:wrap}
+.tag{font-size:12px;background:#74acdf26;color:var(--azul);padding:2px 9px;border-radius:12px;font-weight:600}
+.none{grid-column:1/-1;text-align:center;padding:50px 20px;color:var(--tx2);background:var(--card);border:2px dashed var(--line);border-radius:20px}
+
+/* ---------- detalle ---------- */
+#veil{position:fixed;inset:0;background:rgba(8,16,40,.72);backdrop-filter:blur(4px);z-index:50;display:none;align-items:flex-start;justify-content:center;padding:30px 16px;overflow:auto}
+#veil.on{display:flex}
+.det{background:var(--card);border-radius:22px;max-width:860px;width:100%;overflow:hidden;box-shadow:0 40px 80px -30px #000;animation:pop .25s}
+@keyframes pop{from{transform:scale(.96);opacity:0}}
+.det .cover{height:260px}
+.det .cover.gen .ic{font-size:96px}
+.det .x{position:absolute;right:14px;top:14px;width:40px;height:40px;border-radius:50%;border:0;background:#000a;color:#fff;font-size:20px;cursor:pointer;z-index:2}
+.det .cover .st{top:auto;bottom:14px}
+.det .cover .area{top:auto;bottom:14px}
+.dbody{padding:24px 28px 30px}
+.dbody h2{font:900 clamp(24px,3.4vw,34px)/1.1 var(--fh);margin:0 0 6px;color:var(--azul2)}
+.dbody .sub{color:var(--tx2);margin:0 0 18px}
+.dgrid{display:grid;grid-template-columns:1.6fr 1fr;gap:26px}
+@media (max-width:720px){.dgrid{grid-template-columns:1fr}.dbody{padding:20px}}
+.dgrid h4{font:800 14px var(--fh);text-transform:uppercase;letter-spacing:.6px;color:var(--ladrillo);margin:18px 0 8px}
+.dgrid h4:first-child{margin-top:0}
+.dgrid p{margin:0 0 10px}
+.dgrid ul{margin:0;padding-left:20px}
+.side{background:var(--bg);border-radius:16px;padding:16px;border:1px solid var(--line);align-self:start}
+.side .people{display:flex;flex-direction:column;gap:6px}
+.person{display:flex;align-items:center;gap:8px;font-weight:600}
+.person i{width:30px;height:30px;border-radius:50%;background:var(--celeste);color:var(--azul2);display:flex;align-items:center;justify-content:center;font-style:normal;font-size:13px;font-weight:800}
+.empty{color:var(--tx2);font-style:italic}
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.gal a{border-radius:12px;overflow:hidden;aspect-ratio:4/3;background:var(--bg)}
+.gal img{width:100%;height:100%;object-fit:cover}
+.links{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+.links .btn{background:var(--azul);color:#fff;padding:10px 16px}
+.links .btn.alt{background:#24292f}
+.links .btn:hover{filter:brightness(1.15)}
+
+/* ---------- cómo sumar ---------- */
+.howto{background:linear-gradient(135deg,var(--azul2),var(--azul));color:#fff;border-radius:26px;padding:34px;position:relative;overflow:hidden}
+.howto::before{content:"";position:absolute;right:-80px;top:-80px;width:320px;height:320px;border-radius:50%;background:radial-gradient(var(--celeste),transparent 70%);opacity:.35}
+.howto h2{font:900 clamp(24px,3vw,34px) var(--fh);margin:0 0 6px;position:relative}
+.howto > p{opacity:.9;margin:0 0 22px;position:relative}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;position:relative}
+.step{background:#ffffff14;border:1px solid #ffffff2e;border-radius:16px;padding:16px}
+.step b{display:inline-flex;width:32px;height:32px;border-radius:50%;background:var(--sol);color:#1d1600;align-items:center;justify-content:center;font:900 16px var(--fh);margin-bottom:8px}
+.step h3{margin:0 0 4px;font:800 17px var(--fh)}
+.step p{margin:0;font-size:14px;opacity:.9}
+.step code,.howto code{background:#0005;border-radius:5px;padding:1px 5px;font-size:13px}
+.tpl{position:relative;margin-top:20px}
+.tpl pre{background:#0a1430;color:#cfe3ff;border-radius:14px;padding:18px;overflow:auto;font:13px/1.5 ui-monospace,Consolas,monospace;margin:0;max-height:340px}
+.tpl button{position:absolute;right:12px;top:12px}
+
+footer{background:var(--azul2);color:#cdd9f0;padding:34px 0;margin-top:30px}
+footer .wrap{display:flex;gap:20px;align-items:center;flex-wrap:wrap}
+footer img{height:64px;border-radius:4px}
+footer b{color:#fff}
+footer .sp{flex:1}
+footer a{color:var(--celeste2)}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="wrap">
+    <a class="brand" href="#inicio"><img src="assets/logo.jpg" alt="Logo EETP N° 468"><div>EETP N° 468<small>Proyectos de Prácticas</small></div></a>
+    <div class="sp"></div>
+    <a class="lnk" href="#proyectos">Proyectos</a>
+    <a class="lnk hide-m" href="#sumar">Sumá tu proyecto</a>
+    <a class="lnk hide-m" href="https://sites.google.com/view/eetp468-rosario/inicio" target="_blank" rel="noopener">Sitio de la escuela ↗</a>
+  </div>
+</nav>
+
+<header class="hero" id="inicio">
+  <div class="grid-bg"></div>
+  <div class="wrap">
+    <div>
+      <span class="kicker"><i></i>Prácticas Profesionalizantes</span>
+      <h1>Proyectos de nuestros <span>alumnos</span></h1>
+      <p class="lead">Robots, sensores, redes y mucho más: todo lo que diseñan, programan y construyen los estudiantes de la <b>EETP N° 468 «Ing. Luis B. Laporte»</b> de Rosario.</p>
+      <div class="cta">
+        <a class="btn pri" href="#proyectos">🔎 Ver proyectos</a>
+        <a class="btn sec" href="#sumar">➕ Sumar mi proyecto</a>
+      </div>
+      <div class="stats" id="stats"></div>
+    </div>
+    <div class="logoBig"><img src="assets/logo.jpg" alt=""></div>
+  </div>
+</header>
+
+<main>
+  <section id="proyectos">
+    <div class="wrap">
+      <div class="sh"><div><h2>Proyectos</h2></div><p id="count"></p></div>
+      <div class="filters">
+        <div class="frow">
+          <label class="search">🔎<input id="q" type="search" placeholder="Buscar por nombre, alumno, material, etiqueta…" aria-label="Buscar"></label>
+          <select id="fCurso" aria-label="Curso"></select>
+          <select id="fAnio" aria-label="Año"></select>
+          <select id="fEstado" aria-label="Estado">
+            <option value="">Todos los estados</option>
+            <option value="Terminado">Terminados</option>
+            <option value="En desarrollo">En desarrollo</option>
+          </select>
+        </div>
+        <div class="chips" id="chips"></div>
+      </div>
+      <div id="grid"></div>
+    </div>
+  </section>
+
+  <section id="sumar">
+    <div class="wrap">
+      <div class="howto">
+        <h2>¿Cómo sumo mi proyecto?</h2>
+        <p>Cada grupo agrega su proyecto editando un solo archivo. No hace falta saber programar páginas web.</p>
+        <div class="steps">
+          <div class="step"><b>1</b><h3>Subí tu código</h3><p>Creá una carpeta para tu proyecto en el repositorio con el programa (<code>.ino</code>) y un README.</p></div>
+          <div class="step"><b>2</b><h3>Sacá fotos</h3><p>Guardalas en <code>proyectos/tu-proyecto/</code>. Una se usa de portada (mejor horizontal).</p></div>
+          <div class="step"><b>3</b><h3>Completá la ficha</h3><p>Abrí <code>proyectos.js</code>, copiá la plantilla de abajo y completá tus datos.</p></div>
+          <div class="step"><b>4</b><h3>Revisión del profe</h3><p>Pedí la revisión. Cuando se aprueba, tu proyecto aparece en esta página.</p></div>
+        </div>
+        <div class="tpl">
+          <pre id="tpl"></pre>
+          <button class="btn pri" id="copy">📋 Copiar plantilla</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <img src="assets/logo.jpg" alt="">
+    <div><b>EETP N° 468 «Ing. Luis B. Laporte»</b><br>Rosario, Santa Fe · Proyectos de Prácticas Profesionalizantes</div>
+    <div class="sp"></div>
+    <a href="https://sites.google.com/view/eetp468-rosario/inicio" target="_blank" rel="noopener">Sitio oficial de la escuela ↗</a>
+  </div>
+</footer>
+
+<div id="veil" role="dialog" aria-modal="true"><div class="det" id="det"></div></div>
+
+<script src="proyectos.js"></script>
+<script>
+"use strict";
+const AREAS={
+  "Electrónica":   {ic:"⚡", c1:"#f59e0b", c2:"#b45309"},
+  "Robótica":      {ic:"🤖", c1:"#ef4444", c2:"#7f1d1d"},
+  "Redes":         {ic:"🌐", c1:"#0ea5e9", c2:"#1e3a8a"},
+  "Programación":  {ic:"💻", c1:"#8b5cf6", c2:"#3b0764"},
+  "Automatización":{ic:"⚙️", c1:"#10b981", c2:"#065f46"},
+  "Energía":       {ic:"🔋", c1:"#eab308", c2:"#713f12"},
+  "Otro":          {ic:"🧪", c1:"#64748b", c2:"#1e293b"}
+};
+const $=s=>document.querySelector(s);
+const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+// solo enlaces web o rutas del propio sitio (nada de javascript: ni data:)
+const url=u=>{u=String(u||"").trim();return /^[a-z][\w+.-]*:/i.test(u)&&!/^https?:\/\//i.test(u)?"":u;};
+const list=v=>Array.isArray(v)?v.filter(x=>x!=null&&x!==""):(v?[v]:[]);
+const areaOf=p=>AREAS[p.area]?p.area:"Otro";
+const initials=n=>String(n).trim().split(/\s+/).slice(0,2).map(w=>w[0]).join("").toUpperCase();
+
+// Normaliza la lista para que un dato mal cargado no rompa la página
+const P=(Array.isArray(window.PROYECTOS)?window.PROYECTOS:[]).filter(p=>p&&p.titulo).map((p,i)=>({
+  id:String(p.id||"proyecto-"+(i+1)).replace(/[^\w-]/g,"-"),
+  titulo:String(p.titulo), resumen:String(p.resumen||""), area:p.area, curso:String(p.curso||""),
+  anio:p.anio?String(p.anio):"", estado:p.estado==="Terminado"?"Terminado":"En desarrollo",
+  alumnos:list(p.alumnos).map(String), docente:String(p.docente||""),
+  descripcion:list(p.descripcion).map(String), materiales:list(p.materiales).map(String),
+  etiquetas:list(p.etiquetas).map(String), imagen:url(p.imagen), galeria:list(p.galeria).map(url).filter(Boolean),
+  enlaces:list(p.enlaces).filter(e=>e&&url(e.url)).map(e=>({texto:String(e.texto||"Abrir"),url:url(e.url)})),
+  codigo:url(p.codigo)
+})).sort((a,b)=>(b.anio||"").localeCompare(a.anio||"")||a.titulo.localeCompare(b.titulo,"es"));
+
+/* ---------- portada: números ---------- */
+const students=new Set(P.flatMap(p=>p.alumnos));
+$("#stats").innerHTML=[
+  [P.length,"proyectos"],
+  [new Set(P.map(areaOf)).size,"áreas"],
+  [P.filter(p=>p.estado==="Terminado").length,"terminados"],
+  ...(students.size>=5?[[students.size,"alumnos"]]:[])
+].map(([n,t])=>`<div class="stat"><b data-n="${n}">0</b><span>${t}</span></div>`).join("");
+document.querySelectorAll(".stat b").forEach(b=>{
+  const n=+b.dataset.n,t0=performance.now();
+  const f=t=>{const k=Math.min(1,(t-t0)/900);b.textContent=Math.round(n*(1-Math.pow(1-k,3)));if(k<1)requestAnimationFrame(f);};
+  requestAnimationFrame(f);
+});
+
+/* ---------- filtros ---------- */
+let fArea="";
+const uniq=a=>[...new Set(a.filter(Boolean))];
+$("#fCurso").innerHTML=`<option value="">Todos los cursos</option>`+uniq(P.map(p=>p.curso)).sort().map(c=>`<option>${esc(c)}</option>`).join("");
+$("#fAnio").innerHTML=`<option value="">Todos los años</option>`+uniq(P.map(p=>p.anio)).sort().reverse().map(c=>`<option>${esc(c)}</option>`).join("");
+function chips(){
+  const n=a=>P.filter(p=>!a||areaOf(p)===a).length;
+  $("#chips").innerHTML=[["","✨","Todas"],...uniq(P.map(areaOf)).sort().map(a=>[a,AREAS[a].ic,a])]
+    .map(([a,ic,t])=>`<button class="chip${fArea===a?" on":""}" data-area="${esc(a)}">${ic} ${esc(t)} <small>${n(a)}</small></button>`).join("");
+}
+$("#chips").addEventListener("click",e=>{const b=e.target.closest("[data-area]");if(b){fArea=b.dataset.area;chips();draw();}});
+["#q","#fCurso","#fAnio","#fEstado"].forEach(s=>$(s).addEventListener("input",draw));
+const norm=s=>s.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase();
+
+/* ---------- tarjetas ---------- */
+function cover(p,big){
+  const a=AREAS[areaOf(p)];
+  const badges=`<span class="area">${a.ic} ${esc(areaOf(p))}</span><span class="st ${p.estado==="Terminado"?"done":"wip"}">${p.estado==="Terminado"?"✔ Terminado":"🛠 En desarrollo"}</span>`;
+  return p.imagen
+    ?`<div class="cover" style="--c1:${a.c1}"><img src="${esc(p.imagen)}" alt="" loading="lazy" onerror="this.remove()">${badges}${big||""}</div>`
+    :`<div class="cover gen" style="--c1:${a.c1};--c2:${a.c2}"><span class="ic">${a.ic}</span>${badges}${big||""}</div>`;
+}
+function draw(){
+  const q=norm($("#q").value.trim()),c=$("#fCurso").value,y=$("#fAnio").value,st=$("#fEstado").value;
+  const r=P.filter(p=>(!fArea||areaOf(p)===fArea)&&(!c||p.curso===c)&&(!y||p.anio===y)&&(!st||p.estado===st)&&
+    (!q||norm([p.titulo,p.resumen,p.area,p.docente,...p.alumnos,...p.etiquetas,...p.materiales,...p.descripcion].join(" ")).includes(q)));
+  $("#count").textContent=r.length===P.length?`${P.length} proyectos`:`${r.length} de ${P.length} proyectos`;
+  $("#grid").innerHTML=r.length?r.map((p,i)=>`
+    <article class="card" tabindex="0" data-id="${esc(p.id)}" style="animation-delay:${Math.min(i,10)*60}ms">
+      ${cover(p)}
+      <div class="cbody">
+        <h3>${esc(p.titulo)}</h3>
+        <p>${esc(p.resumen)}</p>
+        ${p.etiquetas.length?`<div class="tags">${p.etiquetas.slice(0,4).map(t=>`<span class="tag">#${esc(t)}</span>`).join("")}</div>`:""}
+        <div class="meta"><span>👥 ${p.alumnos.length?esc(p.alumnos.length>2?p.alumnos.slice(0,2).join(", ")+" y "+(p.alumnos.length-2)+" más":p.alumnos.join(", ")):"Equipo a completar"}</span><span>${esc([p.curso,p.anio].filter(Boolean).join(" · "))}</span></div>
+      </div>
+    </article>`).join(""):`<div class="none">😕 No hay proyectos con esos filtros.<br><br><button class="btn pri" id="clear">Ver todos</button></div>`;
+}
+$("#grid").addEventListener("click",e=>{
+  if(e.target.id==="clear"){fArea="";$("#q").value="";$("#fCurso").value=$("#fAnio").value=$("#fEstado").value="";chips();draw();return;}
+  const c=e.target.closest(".card");if(c)location.hash="proyecto="+c.dataset.id;
+});
+$("#grid").addEventListener("keydown",e=>{const c=e.target.closest(".card");if(c&&(e.key==="Enter"||e.key===" ")){e.preventDefault();location.hash="proyecto="+c.dataset.id;}});
+
+/* ---------- detalle (se puede compartir el link: …#proyecto=id) ---------- */
+let lastScroll=0;
+function openDet(p){
+  const ext=u=>/^https?:/i.test(u)?' target="_blank" rel="noopener"':"";
+  $("#det").innerHTML=`
+    ${cover(p,`<button class="x" id="close" aria-label="Cerrar">✕</button>`)}
+    <div class="dbody">
+      <h2>${esc(p.titulo)}</h2>
+      <p class="sub">${esc(p.resumen)}</p>
+      <div class="dgrid">
+        <div>
+          <h4>Sobre el proyecto</h4>
+          ${p.descripcion.length?p.descripcion.map(t=>`<p>${esc(t)}</p>`).join(""):`<p class="empty">El grupo todavía no cargó la descripción.</p>`}
+          ${p.materiales.length?`<h4>Materiales y tecnologías</h4><ul>${p.materiales.map(m=>`<li>${esc(m)}</li>`).join("")}</ul>`:""}
+          ${p.galeria.length?`<h4>Galería</h4><div class="gal">${p.galeria.map(g=>`<a href="${esc(g)}" target="_blank" rel="noopener"><img src="${esc(g)}" alt="" loading="lazy"></a>`).join("")}</div>`:""}
+          ${p.enlaces.length||p.codigo?`<h4>Enlaces</h4><div class="links">
+            ${p.enlaces.map(l=>`<a class="btn" href="${esc(l.url)}"${ext(l.url)}>🔗 ${esc(l.texto)}</a>`).join("")}
+            ${p.codigo?`<a class="btn alt" href="${esc(p.codigo)}"${ext(p.codigo)}>💾 Ver el código</a>`:""}</div>`:""}
+        </div>
+        <aside class="side">
+          <h4>Equipo</h4>
+          <div class="people">${p.alumnos.length?p.alumnos.map(a=>`<div class="person"><i>${esc(initials(a))}</i>${esc(a)}</div>`).join(""):`<span class="empty">A completar por el grupo</span>`}</div>
+          ${p.docente?`<h4>Docente</h4><div class="person"><i>${esc(initials(p.docente))}</i>${esc(p.docente)}</div>`:""}
+          <h4>Datos</h4>
+          <div>${p.curso?`🎓 ${esc(p.curso)}<br>`:""}${p.anio?`📅 ${esc(p.anio)}<br>`:""}${AREAS[areaOf(p)].ic} ${esc(areaOf(p))}</div>
+          ${p.etiquetas.length?`<h4>Etiquetas</h4><div class="tags">${p.etiquetas.map(t=>`<span class="tag">#${esc(t)}</span>`).join("")}</div>`:""}
+        </aside>
+      </div>
+    </div>`;
+  $("#veil").classList.add("on");$("#veil").scrollTop=0;document.body.style.overflow="hidden";
+  $("#close").focus();
+}
+function route(){
+  const m=location.hash.match(/^#proyecto=([\w-]+)$/),p=m&&P.find(x=>x.id===m[1]);
+  if(p){lastScroll=scrollY;openDet(p);}
+  else if($("#veil").classList.contains("on")){$("#veil").classList.remove("on");document.body.style.overflow="";}
+}
+const closeDet=()=>{history.pushState("",document.title,location.pathname+location.search+"#proyectos");route();scrollTo(0,lastScroll);};
+$("#veil").addEventListener("click",e=>{if(e.target.id==="veil"||e.target.id==="close")closeDet();});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&$("#veil").classList.contains("on"))closeDet();});
+addEventListener("hashchange",route);
+
+/* ---------- plantilla para copiar ---------- */
+const TPL=`  {
+    id: "nombre-corto-sin-espacios",
+    titulo: "Nombre del proyecto",
+    resumen: "Una oración que explique qué hace.",
+    area: "Electrónica",
+    curso: "6° A",
+    anio: ${new Date().getFullYear()},
+    estado: "En desarrollo",
+    alumnos: ["Nombre Apellido", "Nombre Apellido"],
+    docente: "Nombre del profe",
+    descripcion: [
+      "Primer párrafo: qué problema resuelve.",
+      "Segundo párrafo: cómo funciona."
+    ],
+    materiales: ["Arduino Uno", "Sensor ..."],
+    etiquetas: ["arduino"],
+    imagen: "proyectos/nombre-corto-sin-espacios/portada.jpg",
+    galeria: [],
+    enlaces: [{ texto: "Video", url: "https://..." }],
+    codigo: "https://github.com/martinlura/Arduino/tree/HEAD/carpeta"
+  },`;
+$("#tpl").textContent=TPL;
+$("#copy").onclick=()=>{
+  const done=()=>{$("#copy").textContent="✅ ¡Copiada!";setTimeout(()=>$("#copy").textContent="📋 Copiar plantilla",1800);};
+  if(navigator.clipboard)navigator.clipboard.writeText(TPL).then(done,()=>{});
+  else{const r=document.createRange();r.selectNode($("#tpl"));getSelection().removeAllRanges();getSelection().addRange(r);document.execCommand("copy");done();}
+};
+
+/* ---------- barra superior ---------- */
+const nav=$("#nav");
+const onScroll=()=>nav.classList.toggle("solid",scrollY>40);
+addEventListener("scroll",onScroll,{passive:true});onScroll();
+
+chips();draw();route();
+</script>
+</body>
+</html>
