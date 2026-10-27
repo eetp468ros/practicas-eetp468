@@ -12,14 +12,14 @@
   --tx:#152033; --tx2:#4b5873; --acc:#1d6fd6; --accbg:#e1edff;
   --bad:#c62b3c;
   --room:#dfe4ec; --rack:#2a3142; --rail:#4a5368; --tray:#9aa4b5;
-  --utp:#1d6fd6; --fibra:#e98b00; --elec:#d42a2a;
+  --utp:#16a34a; --fibra:#e98b00; --elec:#d42a2a;
   --f:"Segoe UI",system-ui,-apple-system,sans-serif;
 }
 :root[data-theme="dark"]{
   --bg:#10151f; --panel:#1a2232; --panel2:#222c40; --line:#34425d;
   --tx:#eef2fa; --tx2:#a9b6cf; --acc:#5aa8ff; --accbg:#17355a;
   --room:#151c29; --rack:#0b0f17; --rail:#3a4458; --tray:#4a5468;
-  --utp:#4c9bff; --fibra:#ffb020; --elec:#ff5c5c;
+  --utp:#4ade80; --fibra:#ffb020; --elec:#ff5c5c;
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.4 var(--f)}
@@ -34,6 +34,7 @@ header h1 small{display:block;font-size:12px;font-weight:500;color:var(--tx2)}
 .btn{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:8px 11px;font-weight:600;font-size:15px}
 .btn:hover{border-color:var(--acc)}
 .btn.acc{background:var(--acc);border-color:var(--acc);color:#fff}
+a.btn{text-decoration:none;color:inherit}
 .btn.sm{padding:5px 9px;font-size:14px}
 
 main{padding:16px;max-width:1500px;margin:0 auto}
@@ -76,6 +77,8 @@ main{padding:16px;max-width:1500px;margin:0 auto}
 #cables path{fill:none;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;opacity:.9}
 #cables path.hl{stroke-width:8;opacity:1}
 #cables path.dim{opacity:.2}
+#cables path.halo{stroke:#000;stroke-opacity:.45;stroke-width:7}
+#cables path.halo.hl{stroke-width:11}
 
 #hint{margin-top:10px;padding:10px 12px;border-radius:10px;background:var(--accbg);font-size:15px;min-height:44px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 #hint .grow{flex:1}
@@ -140,6 +143,7 @@ details p{margin:6px 0 0;font-size:15px;color:var(--tx2)}
   <button class="btn" id="bOpen">📂 Abrir archivo</button>
   <button class="btn" id="bPrint">🖨️ Imprimir</button>
   <button class="btn" id="bTheme" title="Tema claro / oscuro">🌙</button>
+  <a class="btn" href="avanzado.html" title="Versión con consumo de energía y capacidad de las UPS">⚡ Versión avanzada</a>
   <input type="file" id="file" accept=".json,application/json" hidden>
 </header>
 
@@ -188,11 +192,11 @@ const TYPES={
           d:"Switch «Top of Rack»: va arriba de cada rack y conecta los servidores de ese rack con el switch core."},
   router:{n:"Router / Firewall",    ports:4,  power:true,  u:1, color:"#7a3fb8",
           d:"Une el datacenter con Internet y filtra lo que entra y sale (firewall)."},
-  server:{n:"Servidor",             ports:2,  power:true,  u:1, color:"#1d8a55",
+  server:{n:"Servidor",             ports:2,  power:true,  u:1, color:"#475569",
           d:"Computadora que da servicios: páginas web, correo, bases de datos… Suele tener 2 bocas para no quedarse sin red si una falla."},
   nas:   {n:"Almacenamiento (NAS)", ports:2,  power:true,  u:2, color:"#0e7f84",
           d:"Equipo lleno de discos donde se guardan los datos y las copias de seguridad."},
-  ups:   {n:"UPS",                  ports:0, outlets:4, power:false, u:2, color:"#a23b2a",
+  ups:   {n:"UPS",                  ports:0, outlets:4, power:false, u:2, color:"#27272a",
           d:"Batería que mantiene los equipos encendidos si se corta la luz. Sus tomas ⚡ alimentan a los equipos de su rack."}
 };
 const CABLES={
@@ -348,7 +352,7 @@ function drawCables(){
       d=`M${a.x},${a.y} C${a.x},${a.y+bend} ${b.x},${b.y+bend} ${b.x},${b.y}`;
     }
     const cls=sel?(sel===l.id?"hl":"dim"):"";
-    return `<path class="${cls}" d="${d}" style="stroke:var(${CABLES[l.cable].v})"/>`;
+    return `<path class="halo ${cls}" d="${d}"/><path class="${cls}" d="${d}" style="stroke:var(${CABLES[l.cable].v})"/>`;
   }).join("");
 }
 function renderList(){
