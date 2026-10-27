@@ -247,9 +247,15 @@ footer a{color:var(--celeste2)}
 
 <div id="veil" role="dialog" aria-modal="true"><div class="det" id="det"></div></div>
 
-<script src="proyectos.js"></script>
+<script>
+// Si proyectos.js tiene un error (una coma o un corchete de más o de menos), se guarda dónde
+// para mostrarlo en la página en vez de dejarla vacía.
+addEventListener("error",e=>{if(!window.PROYECTOS)window.PROYECTOS_ERROR={linea:e.lineno,msg:e.message};});
+</script>
+<script src="proyectos.js" onerror="window.PROYECTOS_ERROR={msg:'No se encontró el archivo proyectos.js'}"></script>
 <script>
 "use strict";
+if(!Array.isArray(window.PROYECTOS)&&!window.PROYECTOS_ERROR)window.PROYECTOS_ERROR={msg:"proyectos.js no definió la lista de proyectos"};
 const AREAS={
   "Electrónica":   {ic:"⚡", c1:"#f59e0b", c2:"#b45309"},
   "Robótica":      {ic:"🤖", c1:"#ef4444", c2:"#7f1d1d"},
@@ -329,7 +335,9 @@ function draw(){
         ${p.etiquetas.length?`<div class="tags">${p.etiquetas.slice(0,4).map(t=>`<span class="tag">#${esc(t)}</span>`).join("")}</div>`:""}
         <div class="meta"><span>👥 ${p.alumnos.length?esc(p.alumnos.length>2?p.alumnos.slice(0,2).join(", ")+" y "+(p.alumnos.length-2)+" más":p.alumnos.join(", ")):"Equipo a completar"}</span><span>${esc([p.curso,p.anio].filter(Boolean).join(" · "))}</span></div>
       </div>
-    </article>`).join(""):`<div class="none">😕 No hay proyectos con esos filtros.<br><br><button class="btn pri" id="clear">Ver todos</button></div>`;
+    </article>`).join(""):!P.length&&window.PROYECTOS_ERROR?`<div class="none">⚠️ <b>Hay un error en el archivo <code>proyectos.js</code></b>${PROYECTOS_ERROR.linea?`, cerca de la <b>línea ${esc(PROYECTOS_ERROR.linea)}</b>`:""}.<br>
+      Revisá ${PROYECTOS_ERROR.linea?"en esa zona":"el último cambio que se hizo en ese archivo"}: las comas, las comillas, los corchetes <code>[ ]</code> y las llaves <code>{ }</code>. Cada uno que se abre se tiene que cerrar.${PROYECTOS_ERROR.linea?`<br><small>Detalle: ${esc(PROYECTOS_ERROR.msg)}</small>`:""}</div>`
+    :`<div class="none">😕 No hay proyectos con esos filtros.<br><br><button class="btn pri" id="clear">Ver todos</button></div>`;
 }
 $("#grid").addEventListener("click",e=>{
   if(e.target.id==="clear"){fArea="";$("#q").value="";$("#fCurso").value=$("#fAnio").value=$("#fEstado").value="";chips();draw();return;}

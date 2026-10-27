@@ -113,7 +113,7 @@ window.PROYECTOS = [
     curso: "6° A",
     anio: 2026,
     estado: "En desarrollo",
-    alumnos: [["Milena Gomez", "Morena Paz"],
+    alumnos: ["Milena Gomez", "Morena Paz"],
     docente: "Martin Luraschi",
     descripcion: [
       "Usa un sensor de radar LD2420 que detecta personas aunque estén quietas. Un LED verde indica que no hay nadie, otro LED indica movimiento y otro indica que la persona está quieta.",
