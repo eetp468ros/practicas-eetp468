@@ -30,7 +30,7 @@ window.PROYECTOS = [
     ],
     materiales: ["HTML, CSS y JavaScript", "Funciona sin internet en cualquier navegador"],
     etiquetas: ["datacenter", "racks", "cableado", "energía", "web"],
-    imagen: "",
+    imagen: "proyectos/rack_escuela/portada.jpg",
     galeria: [],
     enlaces: [
       { texto: "Abrir simulador", url: "rack_escuela/index.html" },
