@@ -100,6 +100,7 @@ select{font:inherit;border:1px solid var(--line);background:var(--bg);border-rad
 .cover.gen{background:linear-gradient(135deg,var(--c1),var(--c2));display:flex;align-items:center;justify-content:center}
 .cover.gen::before{content:"";position:absolute;inset:0;opacity:.18;background-image:radial-gradient(#fff 1.5px,transparent 1.5px);background-size:18px 18px}
 .cover.gen .ic{font-size:64px;filter:drop-shadow(0 8px 16px #0005);position:relative}
+.cover:not(.gen) .ic{display:none}
 .cover .area{position:absolute;left:12px;top:12px;background:#000000a0;color:#fff;font-size:12px;font-weight:700;padding:4px 10px;border-radius:20px;backdrop-filter:blur(4px)}
 .cover .st{position:absolute;right:12px;top:12px;font-size:12px;font-weight:700;padding:4px 10px;border-radius:20px}
 .st.done{background:#16a34a;color:#fff}.st.wip{background:var(--sol);color:#1d1600}
@@ -263,6 +264,7 @@ const AREAS={
   "Programación":  {ic:"💻", c1:"#8b5cf6", c2:"#3b0764"},
   "Automatización":{ic:"⚙️", c1:"#10b981", c2:"#065f46"},
   "Energía":       {ic:"🔋", c1:"#eab308", c2:"#713f12"},
+  "Base de datos": {ic:"🗄️", c1:"#db2777", c2:"#500724"},
   "Otro":          {ic:"🧪", c1:"#64748b", c2:"#1e293b"}
 };
 const $=s=>document.querySelector(s);
@@ -317,9 +319,9 @@ const norm=s=>s.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase();
 function cover(p,big){
   const a=AREAS[areaOf(p)];
   const badges=`<span class="area">${a.ic} ${esc(areaOf(p))}</span><span class="st ${p.estado==="Terminado"?"done":"wip"}">${p.estado==="Terminado"?"✔ Terminado":"🛠 En desarrollo"}</span>`;
-  return p.imagen
-    ?`<div class="cover" style="--c1:${a.c1}"><img src="${esc(p.imagen)}" alt="" loading="lazy" onerror="this.remove()">${badges}${big||""}</div>`
-    :`<div class="cover gen" style="--c1:${a.c1};--c2:${a.c2}"><span class="ic">${a.ic}</span>${badges}${big||""}</div>`;
+  // si la foto no existe (todavía no se subió o la ruta está mal), se muestra el dibujo del área
+  const img=p.imagen?`<img src="${esc(p.imagen)}" alt="" loading="lazy" onerror="this.parentNode.classList.add('gen');this.remove()">`:"";
+  return `<div class="cover${img?"":" gen"}" style="--c1:${a.c1};--c2:${a.c2}">${img}<span class="ic">${a.ic}</span>${badges}${big||""}</div>`;
 }
 function draw(){
   const q=norm($("#q").value.trim()),c=$("#fCurso").value,y=$("#fAnio").value,st=$("#fEstado").value;
