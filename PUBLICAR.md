@@ -5,12 +5,12 @@ activar Pages en GitHub y pedir un registro DNS a quien administra el dominio de
 
 ## 1. Unir los cambios en la rama principal
 
-Todo tiene que estar en la rama principal del repositorio (idealmente llamada `main`).
+Todo tiene que estar en la rama principal del repositorio: `main`.
 Ver la explicación sobre ramas y *pull requests* que acompaña este cambio.
 
 ## 2. Activar GitHub Pages
 
-1. Entrá a <https://github.com/martinlura/Arduino> → **Settings** → **Pages**.
+1. Entrá a <https://github.com/martinlura/practicas-eetp468> → **Settings** → **Pages**.
 2. En **Build and deployment** → **Source**, elegí **Deploy from a branch**.
 3. En **Branch**, elegí la rama principal y la carpeta **/ (root)**. Guardá con **Save**.
 4. En **Custom domain** tiene que aparecer `practicas.eetp468.edu.ar`
