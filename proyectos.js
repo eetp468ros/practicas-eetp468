@@ -33,7 +33,7 @@ window.PROYECTOS = [
     imagen: "proyectos/rack_escuela/portada.jpg",
     galeria: [],
     enlaces: [
-      { texto: "Abrir simulador", url: "proyectos/rack_escuela/index.html" },
+      { texto: "Abrir simulador", url: "rack_escuela/index.html" },
       { texto: "Versión avanzada (energía)", url: "rack_escuela/avanzado.html" }
     ],
     codigo: "https://github.com/martinlura/practicas-eetp468/tree/HEAD/rack_escuela"
