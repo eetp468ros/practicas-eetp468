@@ -1,5 +1,5 @@
 #include <SoftwareSerial.h>
-
+// Grupo Milena
 SoftwareSerial ld2420(8, 9); // RX=8 (OT1), TX=9 (RX del sensor)
 
 const int LED_MOVIMIENTO = 4;
