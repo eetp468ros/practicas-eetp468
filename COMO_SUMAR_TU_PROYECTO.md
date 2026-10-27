@@ -31,7 +31,7 @@ en «¿Cómo sumo mi proyecto?») y pegala dentro de la lista, después del últ
 | `id` | Nombre corto sin espacios ni acentos, con guiones: `riego-automatico`. Tiene que ser único. |
 | `titulo` | Nombre del proyecto. |
 | `resumen` | Una sola oración que diga qué hace. Aparece en la tarjeta. |
-| `area` | `Electrónica`, `Robótica`, `Redes`, `Programación`, `Automatización`, `Energía` u `Otro`. |
+| `area` | `Electrónica`, `Robótica`, `Redes`, `Programación`, `Base de datos`, `Automatización`, `Energía` u `Otro`. |
 | `curso` / `anio` | Por ejemplo `"6° A"` y `2026`. |
 | `estado` | `"En desarrollo"` o `"Terminado"`. |
 | `alumnos` | Lista con los nombres del grupo: `["Ana Pérez", "Juan Gómez"]`. |
