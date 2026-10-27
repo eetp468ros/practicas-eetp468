@@ -123,7 +123,7 @@ window.PROYECTOS = [
     etiquetas: ["arduino", "radar", "presencia"],
     imagen: "proyectos/sensor_presencia/portada.jpg",
     galeria: ["proyectos/sensor_presencia/mov.jpg"],
-    enlaces: [],
+    enlaces: [ { texto: "Video en YouTube", url: "https://youtu.be/iYiTc67nozs?si=CVs59qp4b1SAwq-1" }],
     codigo: "https://github.com/eetp468ros/practicas-eetp468/tree/HEAD/sensor_presencia"
   },
 
