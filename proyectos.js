@@ -122,7 +122,7 @@ window.PROYECTOS = [
     materiales: ["Arduino", "Radar de presencia LD2420", "Buzzer pasivo", "3 LEDs y resistencias"],
     etiquetas: ["arduino", "radar", "presencia"],
     imagen: "proyectos/sensor_presencia/portada.jpg",
-    galeria: [],
+    galeria: ["proyectos/sensor_presencia/mov.jpg"],
     enlaces: [],
     codigo: "https://github.com/eetp468ros/practicas-eetp468/tree/HEAD/sensor_presencia"
   },
