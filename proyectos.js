@@ -114,14 +114,14 @@ window.PROYECTOS = [
     anio: 2026,
     estado: "En desarrollo",
     alumnos: [],
-    docente: "",
+    docente: "Martin Luraschi",
     descripcion: [
       "Usa un sensor de radar LD2420 que detecta personas aunque estén quietas. Un LED verde indica que no hay nadie, otro LED indica movimiento y otro indica que la persona está quieta.",
       "Un buzzer funciona como un sonar: pita más rápido y más agudo cuanto más cerca está la persona."
     ],
     materiales: ["Arduino", "Radar de presencia LD2420", "Buzzer pasivo", "3 LEDs y resistencias"],
     etiquetas: ["arduino", "radar", "presencia"],
-    imagen: "",
+    imagen: "proyectos/sensor_presencia/portada.jpg",
     galeria: [],
     enlaces: [],
     codigo: "https://github.com/martinlura/practicas-eetp468/tree/HEAD/sensor_presencia"
