@@ -127,6 +127,28 @@ window.PROYECTOS = [
     codigo: "https://github.com/eetp468ros/practicas-eetp468/tree/HEAD/sensor_presencia"
   },
 
+   {
+    id: "laboratorio-sql",
+    titulo: "Laboratorio SQL",
+    resumen: "Mini laboratorio para probar comandos SQL",
+    area: "Base de datos",
+    curso: "6° A",
+    anio: 2026,
+    estado: "En desarrollo",
+    alumnos: ["Nombre Apellido", "Nombre Apellido"],
+    docente: "Martin Luraschi",
+    descripcion: [
+      "Mini servidor de bases de datos de la EETP N°468, destinado a las prácticas de los alumnos de la especialidad. Permite crear,  consultar y administrar bases de datos mediante el lenguaje SQL, como apoyo a los espacios de programación y desarrollo de software.",
+      "Segundo párrafo: cómo funciona."
+    ],
+    materiales: ["HTML", "CCS"],
+    etiquetas: ["SQL", "base de datos", "tablas"],
+    imagen: "proyectos/laboratorio-sql/portada.jpg",
+    galeria: [],
+    enlaces: [{ texto: "Video", url: "https://..." }],
+    codigo: "https://github.com/eetp468ros/practicas-eetp468/"
+  },
+
   {
     id: "pruebas-buzzers",
     titulo: "Laboratorio de buzzers",
