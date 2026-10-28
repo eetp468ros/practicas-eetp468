@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1F4E79">
+<title>Laboratorio SQL</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cellipse cx='32' cy='14' rx='22' ry='8' fill='%232E75B6'/%3E%3Cpath d='M10 14v36c0 4.4 9.8 8 22 8s22-3.6 22-8V14c0 4.4-9.8 8-22 8s-22-3.6-22-8z' fill='%231F4E79'/%3E%3C/svg%3E">
+<style>
+:root{
+  --azul:#1F4E79;--azul2:#2E75B6;--azul-claro:#DEEAF6;--fondo:#F4F6F9;--panel:#FFFFFF;
+  --texto:#1D2733;--suave:#5B6573;--borde:#D5DCE4;--codigo:#F2F2F2;
+  --ok:#1E7B3A;--ok-fondo:#E3F4E8;--error:#B42318;--error-fondo:#FDE2E1;--aviso:#8A6D00;--aviso-fondo:#FFF4CE;
+  --null:#B42318;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --azul:#9CC3EA;--azul2:#5B9BD5;--azul-claro:#1B2F45;--fondo:#11161D;--panel:#19212B;
+    --texto:#E6EBF1;--suave:#9AA6B4;--borde:#2D3846;--codigo:#0F141A;
+    --ok:#6FD08C;--ok-fondo:#15301E;--error:#FF8A80;--error-fondo:#3A1A18;--aviso:#F2CF5B;--aviso-fondo:#3A3115;--null:#FF8A80;
+  }
+}
+:root[data-theme="dark"]{
+  --azul:#9CC3EA;--azul2:#5B9BD5;--azul-claro:#1B2F45;--fondo:#11161D;--panel:#19212B;
+  --texto:#E6EBF1;--suave:#9AA6B4;--borde:#2D3846;--codigo:#0F141A;
+  --ok:#6FD08C;--ok-fondo:#15301E;--error:#FF8A80;--error-fondo:#3A1A18;--aviso:#F2CF5B;--aviso-fondo:#3A3115;--null:#FF8A80;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--fondo);color:var(--texto);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Calibri,sans-serif;font-size:16px;line-height:1.45;-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"Cascadia Mono",Consolas,"Liberation Mono",Menlo,monospace}
+header{background:var(--azul);color:#fff;padding:14px 16px 12px}
+:root[data-theme="dark"] header{background:#16324F}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) header{background:#16324F}}
+header h1{margin:0;font-size:1.25rem;letter-spacing:.2px}
+header p{margin:2px 0 0;font-size:.85rem;opacity:.85}
+.wrap{max-width:900px;margin:0 auto;padding:12px 16px 40px}
+.panel{background:var(--panel);border:1px solid var(--borde);border-radius:12px;padding:12px;margin-bottom:12px}
+.titulo{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 8px}
+.titulo h2{margin:0;font-size:1rem;color:var(--azul)}
+textarea{width:100%;min-height:150px;resize:vertical;border:1px solid var(--borde);border-left:4px solid var(--azul2);border-radius:8px;background:var(--codigo);color:var(--texto);padding:10px 12px;font-size:16px;line-height:1.5;font-family:ui-monospace,"Cascadia Mono",Consolas,"Liberation Mono",Menlo,monospace;tab-size:2}
+textarea:focus{outline:2px solid var(--azul2);outline-offset:1px}
+.teclas{display:flex;gap:6px;overflow-x:auto;padding:8px 0 2px;scrollbar-width:thin;-webkit-overflow-scrolling:touch}
+.teclas button{flex:0 0 auto}
+button{font:inherit;cursor:pointer;border-radius:8px;border:1px solid var(--borde);background:var(--panel);color:var(--texto);padding:8px 12px;min-height:40px}
+button:active{transform:translateY(1px)}
+.tecla{font-family:ui-monospace,Consolas,Menlo,monospace;font-size:.85rem;padding:6px 10px;min-height:36px;background:var(--azul-claro);border-color:transparent;color:var(--azul)}
+.acciones{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.btn-run{background:#2E75B6;color:#fff;border:none;font-weight:600;flex:1 1 160px;min-height:46px;font-size:1rem}
+.btn-sec{flex:0 1 auto}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.grupo{margin-bottom:10px}
+.grupo h3{margin:0 0 6px;font-size:.8rem;text-transform:uppercase;letter-spacing:.6px;color:var(--suave)}
+.chip{font-size:.85rem;padding:6px 10px;min-height:36px;border-radius:999px}
+.salida{display:flex;flex-direction:column;gap:10px}
+.msg{border-radius:8px;padding:10px 12px;border-left:4px solid;font-size:.95rem}
+.msg.ok{background:var(--ok-fondo);border-color:var(--ok)}
+.msg.error{background:var(--error-fondo);border-color:var(--error)}
+.msg.aviso{background:var(--aviso-fondo);border-color:var(--aviso)}
+.msg .sql{display:block;margin-top:4px;font-size:.8rem;color:var(--suave);white-space:pre-wrap;word-break:break-word}
+.msg b{font-weight:600}
+.tabla-scroll{overflow-x:auto;border:1px solid var(--borde);border-radius:8px;-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th{background:var(--azul2);color:#fff;text-align:left;padding:7px 10px;white-space:nowrap;font-weight:600}
+td{padding:7px 10px;border-top:1px solid var(--borde);white-space:nowrap}
+tr:nth-child(even) td{background:color-mix(in srgb,var(--azul-claro) 40%,transparent)}
+td.null{color:var(--null);font-style:italic}
+.pie-tabla{font-size:.8rem;color:var(--suave);margin-top:4px}
+.vacio{color:var(--suave);font-size:.9rem;margin:0}
+.lista-tablas{display:flex;flex-direction:column;gap:6px}
+.fila-tabla{display:flex;align-items:center;justify-content:space-between;gap:8px;border:1px solid var(--borde);border-radius:8px;padding:6px 6px 6px 12px}
+.fila-tabla .nom{font-family:ui-monospace,Consolas,Menlo,monospace;font-weight:600}
+.fila-tabla .cant{color:var(--suave);font-size:.85rem}
+.fila-tabla .bts{display:flex;gap:6px}
+.fila-tabla button{min-height:34px;padding:4px 10px;font-size:.85rem}
+details summary{cursor:pointer;color:var(--azul);font-weight:600;padding:2px 0;list-style-position:outside}
+details[open] summary{margin-bottom:8px}
+.ayuda{font-size:.9rem;color:var(--suave)}
+.ayuda code{background:var(--codigo);padding:1px 5px;border-radius:4px;color:var(--texto)}
+.ayuda ul{padding-left:20px;margin:6px 0}
+.estado{font-size:.8rem;color:var(--suave)}
+.cargando{padding:30px 16px;text-align:center;color:var(--suave)}
+.tema{white-space:nowrap;background:transparent;border:1px solid rgba(255,255,255,.4);color:#fff;min-height:34px;padding:4px 10px;font-size:.85rem}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;max-width:900px;margin:0 auto}
+.marca{display:flex;align-items:center;gap:12px;min-width:0}
+.logo{width:46px;height:auto;flex:0 0 auto;border-radius:4px;background:#fff;padding:2px;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+@media (min-width:600px){.logo{width:56px}}
+.historial{display:flex;flex-direction:column;gap:6px;max-height:240px;overflow:auto}
+.historial button{text-align:left;font-family:ui-monospace,Consolas,Menlo,monospace;font-size:.8rem;white-space:pre-wrap;word-break:break-word;min-height:auto;padding:8px 10px}
+@media (min-width:760px){
+  .dos-col{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .dos-col .panel{margin-bottom:0}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="top">
+    <div class="marca">
+      <img class="logo" src="data:image/jpeg;base64,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" alt="Logo de la EETP N° 468 Ing. Luis B. Laporte">
+      <div>
+        <h1>Laboratorio SQL SOFTWARE 2 EETP 468 LAPORTE </h1>
+        <p>Practicá comandos SQL desde el celular o la compu</p>
+      </div>
+    </div>
+    <button class="tema" id="btnTema" type="button" aria-label="Cambiar tema claro u oscuro">Tema</button>
+  </div>
+</header>
+
+<div class="wrap">
+  <div id="cargando" class="cargando">Cargando el motor de base de datos…</div>
+
+  <div id="app" hidden>
+    <section class="panel">
+      <div class="titulo">
+        <h2>Escribí tu consulta</h2>
+        <span class="estado" id="estado"></span>
+      </div>
+      <textarea id="editor" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" aria-label="Editor SQL">SELECT * FROM alumnos;</textarea>
+      <div class="teclas" id="teclas" aria-label="Atajos de teclado SQL"></div>
+      <div class="acciones">
+        <button class="btn-run" id="btnEjecutar" type="button">▶ Ejecutar</button>
+        <button class="btn-sec" id="btnLimpiar" type="button">Borrar texto</button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="titulo"><h2>Resultado</h2></div>
+      <div class="salida" id="salida"><p class="vacio">Tocá <b>Ejecutar</b> para ver el resultado acá.</p></div>
+    </section>
+
+    <div class="dos-col">
+      <section class="panel">
+        <div class="titulo">
+          <h2>Mis tablas</h2>
+          <button class="btn-sec" id="btnReiniciar" type="button">↺ Reiniciar</button>
+        </div>
+        <div class="lista-tablas" id="tablas"></div>
+      </section>
+
+      <section class="panel">
+        <div class="titulo"><h2>Ejemplos</h2></div>
+        <p class="ayuda" style="margin:0 0 8px">Tocá un ejemplo para copiarlo al editor.</p>
+        <div id="ejemplos"></div>
+      </section>
+    </div>
+
+    <section class="panel" style="margin-top:12px">
+      <details>
+        <summary>Historial</summary>
+        <div class="historial" id="historial"><p class="vacio">Todavía no ejecutaste nada.</p></div>
+      </details>
+    </section>
+
+    <section class="panel">
+      <details>
+        <summary>¿Cómo se usa?</summary>
+        <div class="ayuda">
+          <ul>
+            <li>Ya hay una tabla <code>alumnos</code> cargada, igual a la del material de clase.</li>
+            <li>Podés escribir varias instrucciones juntas, separadas por <code>;</code>.</li>
+            <li>Los textos van entre comillas simples (<code>'4A'</code>) y los decimales con punto (<code>8.50</code>).</li>
+            <li>Se acepta la sintaxis del material: <code>INT PRIMARY KEY AUTO_INCREMENT</code>, <code>VARCHAR</code>, <code>DECIMAL</code>.</li>
+            <li>Los decimales se muestran sin ceros al final: <code>9.00</code> aparece como <code>9</code> y <code>8.50</code> como <code>8.5</code>.</li>
+            <li>Tus tablas quedan guardadas en este dispositivo. Con <b>Reiniciar</b> todo vuelve al estado inicial.</li>
+            <li>Si te equivocás, nada se rompe: leé el mensaje de error, corregí y volvé a ejecutar.</li>
+          </ul>
+        </div>
+      </details>
+    </section>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
+<script>
+(function(){
+  "use strict";
+  var WASM_BASE = "https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/";
+  var CLAVE_DB = "labsql_db_v1", CLAVE_HIST = "labsql_hist_v1", CLAVE_TEMA = "labsql_tema";
+
+  var DATOS_INICIALES = [
+    "CREATE TABLE alumnos (",
+    "  id INT PRIMARY KEY AUTO_INCREMENT,",
+    "  nombre VARCHAR(50),",
+    "  apellido VARCHAR(50),",
+    "  curso VARCHAR(5),",
+    "  edad INT,",
+    "  nota DECIMAL(4,2)",
+    ");",
+    "INSERT INTO alumnos (nombre, apellido, curso, edad, nota) VALUES",
+    "('Juan','Pérez','4A',16,8.50),",
+    "('Lucía','Gómez','4A',15,9.00),",
+    "('Tomás','Fernández','4B',16,6.75),",
+    "('Sofía','Martínez','5A',17,7.25),",
+    "('Mateo','López','4B',15,5.50);"
+  ].join("\n");
+
+  var EJEMPLOS = [
+    {g:"Crear una tabla", items:[
+      ["Crear tabla materias","CREATE TABLE materias (\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  nombre VARCHAR(50),\n  horas INT\n);"],
+      ["Cargar materias","INSERT INTO materias (nombre, horas) VALUES\n('Software', 4),\n('Matemática', 5),\n('Inglés', 3);\n\nSELECT * FROM materias;"]
+    ]},
+    {g:"INSERT", items:[
+      ["Insertar un alumno","INSERT INTO alumnos (nombre, apellido, curso, edad, nota)\nVALUES ('Valentina', 'Ruiz', '4A', 16, 8.00);"],
+      ["Solo algunas columnas","INSERT INTO alumnos (nombre, apellido, curso)\nVALUES ('Benjamín', 'Sosa', '5A');"],
+      ["Varios a la vez","INSERT INTO alumnos (nombre, apellido, curso, edad, nota)\nVALUES ('Martina', 'Díaz', '4B', 15, 7.50),\n       ('Joaquín', 'Romero', '4A', 16, 6.00),\n       ('Camila', 'Torres', '5A', 17, 9.25);"]
+    ]},
+    {g:"SELECT", items:[
+      ["Todo","SELECT * FROM alumnos;"],
+      ["Algunas columnas","SELECT nombre, apellido FROM alumnos;"],
+      ["WHERE","SELECT * FROM alumnos WHERE curso = '4A';"],
+      ["AND / OR","SELECT * FROM alumnos WHERE curso = '4B' OR curso = '5A';"],
+      ["LIKE","SELECT * FROM alumnos WHERE apellido LIKE 'M%';"],
+      ["ORDER BY","SELECT nombre, nota FROM alumnos ORDER BY nota DESC;"],
+      ["LIMIT","SELECT nombre, nota FROM alumnos ORDER BY nota DESC LIMIT 3;"],
+      ["COUNT / AVG","SELECT COUNT(*) FROM alumnos;\nSELECT AVG(nota) FROM alumnos WHERE curso = '4A';"],
+      ["GROUP BY","SELECT curso, COUNT(*) FROM alumnos GROUP BY curso;"]
+    ]},
+    {g:"UPDATE", items:[
+      ["Cambiar una nota","UPDATE alumnos SET nota = 9.50 WHERE id = 1;\n\nSELECT * FROM alumnos WHERE id = 1;"],
+      ["Varios datos","UPDATE alumnos SET curso = '5A', edad = 17 WHERE id = 2;"]
+    ]},
+    {g:"DELETE", items:[
+      ["Borrar por id","DELETE FROM alumnos WHERE id = 5;"],
+      ["Revisar antes de borrar","-- Paso 1: ver qué se va a borrar\nSELECT * FROM alumnos WHERE curso = '4B';\n\n-- Paso 2: si está bien, borrar\n-- DELETE FROM alumnos WHERE curso = '4B';"]
+    ]}
+  ];
+
+  var TECLAS = ["SELECT","*","FROM","WHERE","=","'","( )",",",";","INSERT INTO","VALUES","UPDATE","SET","DELETE FROM","AND","OR","LIKE","%","ORDER BY","DESC","LIMIT","COUNT(*)","CREATE TABLE","alumnos"];
+
+  var SQL, db;
+  var $ = function(id){ return document.getElementById(id); };
+  var editor = $("editor");
+
+  // ---------- almacenamiento seguro ----------
+  function guardar(k, v){ try{ localStorage.setItem(k, v); }catch(e){} }
+  function leer(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+  function borrar(k){ try{ localStorage.removeItem(k); }catch(e){} }
+
+  function aBase64(u8){ var s="", ch=0x8000; for(var i=0;i<u8.length;i+=ch){ s+=String.fromCharCode.apply(null, u8.subarray(i,i+ch)); } return btoa(s); }
+  function deBase64(b){ var s=atob(b), u=new Uint8Array(s.length); for(var i=0;i<s.length;i++) u[i]=s.charCodeAt(i); return u; }
+
+  function guardarDB(){ try{ guardar(CLAVE_DB, aBase64(db.export())); }catch(e){} }
+
+  function dbNueva(){
+    var d = new SQL.Database();
+    d.exec("PRAGMA foreign_keys = ON;");
+    d.exec(adaptar(DATOS_INICIALES));
+    return d;
+  }
+
+  // ---------- compatibilidad con la sintaxis MySQL del material ----------
+  function adaptar(sql){
+    return sql
+      .replace(/\bINT(?:EGER)?\s+PRIMARY\s+KEY\s+AUTO_INCREMENT\b/gi, "INTEGER PRIMARY KEY AUTOINCREMENT")
+      .replace(/\bINT(?:EGER)?\s+AUTO_INCREMENT\s+PRIMARY\s+KEY\b/gi, "INTEGER PRIMARY KEY AUTOINCREMENT")
+      .replace(/\bAUTO_INCREMENT\b/gi, "");
+  }
+
+  // ---------- separar instrucciones respetando comillas y comentarios ----------
+  function separar(sql){
+    var out=[], cur="", q=null, i=0;
+    while(i<sql.length){
+      var c=sql[i], n=sql[i+1];
+      if(!q && c==="-" && n==="-"){ var f=sql.indexOf("\n",i); if(f<0) f=sql.length; i=f; continue; }
+      if(!q && c==="/" && n==="*"){ var g=sql.indexOf("*/",i+2); i=(g<0)?sql.length:g+2; continue; }
+      if(q){ cur+=c; if(c===q){ if(n===q){ cur+=n; i+=2; continue; } q=null; } i++; continue; }
+      if(c==="'"||c==='"'||c==="`"){ q=c; cur+=c; i++; continue; }
+      if(c===";"){ if(cur.trim()) out.push(cur.trim()); cur=""; i++; continue; }
+      cur+=c; i++;
+    }
+    if(cur.trim()) out.push(cur.trim());
+    return out;
+  }
+
+  // ---------- mensajes de error en castellano ----------
+  function traducirError(m){
+    var r;
+    if((r=/no such table: (\S+)/i.exec(m))) return "No existe la tabla <b>"+esc(r[1])+"</b>. Revisá cómo está escrito el nombre (en <i>Mis tablas</i> ves las que existen).";
+    if((r=/no such column: (\S+)/i.exec(m))) return "No existe la columna <b>"+esc(r[1])+"</b>. Revisá el nombre. Si es un texto, tiene que ir entre comillas simples: <code>'"+esc(r[1])+"'</code>.";
+    if((r=/table (\S+) already exists/i.exec(m))) return "Ya existe una tabla llamada <b>"+esc(r[1])+"</b>. Usá otro nombre o tocá <i>Reiniciar</i>.";
+    if((r=/near "([^"]*)": syntax error/i.exec(m))) return "Error de sintaxis cerca de <b>"+esc(r[1])+"</b>. Revisá comas, paréntesis, comillas y el orden de las palabras.";
+    if((r=/unrecognized token: "([^"]*)"/i.exec(m))) return "No se reconoce <b>"+esc(r[1])+"</b>. Si es un texto, tiene que ir entre comillas simples: <code>'"+esc(r[1].replace(/['"]/g,""))+"'</code>. Si abriste una comilla, revisá que esté cerrada.";
+    if(/incomplete input/i.test(m)) return "La instrucción está incompleta: puede faltar cerrar un paréntesis o una comilla.";
+    if((r=/UNIQUE constraint failed: (\S+)/i.exec(m))) return "Valor repetido en <b>"+esc(r[1])+"</b>: la clave primaria no se puede repetir.";
+    if(/FOREIGN KEY constraint failed/i.test(m)) return "La clave foránea no coincide con ningún registro de la otra tabla (o hay registros que dependen de este).";
+    if((r=/NOT NULL constraint failed: (\S+)/i.exec(m))) return "El campo <b>"+esc(r[1])+"</b> no puede quedar vacío.";
+    if((r=/(\d+) values for (\d+) columns/i.exec(m))) return "Pusiste "+r[1]+" valores para "+r[2]+" columnas: tiene que haber la misma cantidad.";
+    if((r=/table (\S+) has (\d+) columns but (\d+) values were supplied/i.exec(m))) return "La tabla <b>"+esc(r[1])+"</b> tiene "+r[2]+" columnas, pero pusiste "+r[3]+" valores. Indicá las columnas entre paréntesis después del nombre de la tabla.";
+    if((r=/no such function: (\S+)/i.exec(m))) return "No existe la función <b>"+esc(r[1])+"</b>.";
+    return "Error: "+esc(m);
+  }
+
+  function esc(s){ return String(s).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
+
+  function fmt(v){
+    if(v===null || v===undefined) return null;
+    if(typeof v==="number" && !Number.isInteger(v)) return String(Math.round(v*10000)/10000);
+    if(v instanceof Uint8Array) return "[datos binarios]";
+    return String(v);
+  }
+
+  function tablaHTML(cols, filas){
+    var h='<div class="tabla-scroll"><table><thead><tr>';
+    cols.forEach(function(c){ h+="<th>"+esc(c)+"</th>"; });
+    h+="</tr></thead><tbody>";
+    filas.forEach(function(f){
+      h+="<tr>";
+      f.forEach(function(v){ var t=fmt(v); h+= (t===null) ? '<td class="null">NULL</td>' : "<td>"+esc(t)+"</td>"; });
+      h+="</tr>";
+    });
+    h+="</tbody></table></div>";
+    return h;
+  }
+
+  function verbo(s){ return (s.match(/^\s*([a-z]+)/i)||[,""])[1].toUpperCase(); }
+  function corto(s){ return s.length>140 ? s.slice(0,140)+"…" : s; }
+
+  // ---------- ejecutar ----------
+  function ejecutar(){
+    var texto = editor.value;
+    var sentencias = separar(texto);
+    var salida = $("salida");
+    if(!sentencias.length){ salida.innerHTML='<p class="vacio">El editor está vacío.</p>'; return; }
+
+    // Aviso UPDATE/DELETE sin WHERE
+    var peligrosas = sentencias.filter(function(s){ var v=verbo(s); return (v==="UPDATE"||v==="DELETE") && !/\bWHERE\b/i.test(s); });
+    if(peligrosas.length){
+      var ok = window.confirm("Atención: hay un " + verbo(peligrosas[0]) + " sin WHERE.\nVa a afectar a TODOS los registros de la tabla.\n\n¿Querés ejecutarlo igual?");
+      if(!ok) return;
+    }
+
+    var html = "";
+    for(var i=0;i<sentencias.length;i++){
+      var s = sentencias[i], v = verbo(s);
+      try{
+        var antes = db.getRowsModified();
+        var res = db.exec(adaptar(s));
+        var cambios = db.getRowsModified() - antes;
+        if(res.length){
+          res.forEach(function(r){
+            html += '<div><div class="msg ok"><b>Consulta ejecutada</b> · '+r.values.length+' fila'+(r.values.length===1?"":"s")+'<span class="sql mono">'+esc(corto(s))+'</span></div></div>';
+            html += tablaHTML(r.columns, r.values);
+          });
+        } else if(v==="SELECT"){
+          html += '<div class="msg aviso"><b>La consulta no devolvió ninguna fila.</b> Ningún registro cumple la condición.<span class="sql mono">'+esc(corto(s))+'</span></div>';
+        } else {
+          var txt = "Instrucción ejecutada.";
+          if(v==="INSERT") txt = cambios===1 ? "Se insertó 1 registro." : "Se insertaron "+cambios+" registros.";
+          else if(v==="UPDATE") txt = cambios===1 ? "Se modificó 1 registro." : "Se modificaron "+cambios+" registros.";
+          else if(v==="DELETE") txt = cambios===1 ? "Se borró 1 registro." : "Se borraron "+cambios+" registros.";
+          else if(v==="CREATE") txt = "Se creó la tabla correctamente.";
+          else if(v==="DROP") txt = "Se eliminó la tabla.";
+          else if(v==="ALTER") txt = "Se modificó la estructura de la tabla.";
+          html += '<div class="msg ok"><b>'+txt+'</b><span class="sql mono">'+esc(corto(s))+'</span></div>';
+        }
+      }catch(e){
+        html += '<div class="msg error">'+traducirError(e.message)+'<span class="sql mono">'+esc(corto(s))+'</span></div>';
+        if(i < sentencias.length-1) html += '<div class="msg aviso">Las instrucciones siguientes no se ejecutaron.</div>';
+        break;
+      }
+    }
+    salida.innerHTML = html;
+    guardarDB();
+    agregarHistorial(texto.trim());
+    pintarTablas();
+    if(window.innerWidth < 760) $("salida").scrollIntoView({behavior:"smooth", block:"start"});
+  }
+
+  // ---------- tablas ----------
+  function pintarTablas(){
+    var cont = $("tablas");
+    var r = db.exec("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%' ORDER BY name");
+    if(!r.length){ cont.innerHTML='<p class="vacio">No hay tablas. Creá una con CREATE TABLE o tocá Reiniciar.</p>'; return; }
+    cont.innerHTML = "";
+    r[0].values.forEach(function(f){
+      var n = f[0], cant = 0;
+      try{ cant = db.exec('SELECT COUNT(*) FROM "'+n.replace(/"/g,'""')+'"')[0].values[0][0]; }catch(e){}
+      var div = document.createElement("div");
+      div.className = "fila-tabla";
+      div.innerHTML = '<div><span class="nom">'+esc(n)+'</span> <span class="cant">· '+cant+' registro'+(cant===1?"":"s")+'</span></div><div class="bts"><button type="button" data-a="ver">Ver</button><button type="button" data-a="est">Estructura</button></div>';
+      div.querySelector('[data-a="ver"]').onclick = function(){ editor.value = "SELECT * FROM "+n+";"; ejecutar(); };
+      div.querySelector('[data-a="est"]').onclick = function(){ mostrarEstructura(n); };
+      cont.appendChild(div);
+    });
+  }
+
+  function mostrarEstructura(n){
+    try{
+      var r = db.exec('PRAGMA table_info("'+n.replace(/"/g,'""')+'")')[0];
+      var filas = r.values.map(function(v){ return [v[1], v[2]||"", v[5] ? "Sí" : "", v[3] ? "Sí" : ""]; });
+      $("salida").innerHTML = '<div class="msg ok"><b>Estructura de la tabla '+esc(n)+'</b></div>' + tablaHTML(["columna","tipo","clave primaria","no nulo"], filas);
+      if(window.innerWidth < 760) $("salida").scrollIntoView({behavior:"smooth", block:"start"});
+    }catch(e){}
+  }
+
+  // ---------- historial ----------
+  function cargarHist(){ try{ return JSON.parse(leer(CLAVE_HIST)||"[]"); }catch(e){ return []; } }
+  function agregarHistorial(t){
+    if(!t) return;
+    var h = cargarHist().filter(function(x){ return x!==t; });
+    h.unshift(t); h = h.slice(0,20);
+    guardar(CLAVE_HIST, JSON.stringify(h));
+    pintarHist();
+  }
+  function pintarHist(){
+    var h = cargarHist(), cont = $("historial");
+    if(!h.length){ cont.innerHTML='<p class="vacio">Todavía no ejecutaste nada.</p>'; return; }
+    cont.innerHTML = "";
+    h.forEach(function(t){
+      var b = document.createElement("button"); b.type="button"; b.textContent = t;
+      b.onclick = function(){ editor.value = t; editor.focus(); window.scrollTo({top:0,behavior:"smooth"}); };
+      cont.appendChild(b);
+    });
+  }
+
+  // ---------- teclas y ejemplos ----------
+  function insertar(t){
+    var ini = editor.selectionStart, fin = editor.selectionEnd, v = editor.value, cursor;
+    if(t==="( )"){ editor.value = v.slice(0,ini)+"("+v.slice(ini,fin)+")"+v.slice(fin); cursor = ini+1+(fin-ini); }
+    else if(t==="'"){ editor.value = v.slice(0,ini)+"'"+v.slice(ini,fin)+"'"+v.slice(fin); cursor = (fin>ini) ? fin+2 : ini+1; }
+    else {
+      var antes = v.slice(0,ini), palabra = /^[A-Za-z]/.test(t);
+      var pre = (palabra && antes && !/[\s(]$/.test(antes)) ? " " : "";
+      var pos = (palabra || t===",") ? " " : "";
+      editor.value = antes+pre+t+pos+v.slice(fin); cursor = ini+pre.length+t.length+pos.length;
+    }
+    editor.focus(); editor.setSelectionRange(cursor, cursor);
+  }
+
+  function armarTeclas(){
+    var c = $("teclas");
+    TECLAS.forEach(function(t){
+      var b = document.createElement("button"); b.type="button"; b.className="tecla"; b.textContent=t;
+      b.addEventListener("mousedown", function(e){ e.preventDefault(); });
+      b.onclick = function(){ insertar(t); };
+      c.appendChild(b);
+    });
+  }
+
+  function armarEjemplos(){
+    var c = $("ejemplos");
+    EJEMPLOS.forEach(function(g){
+      var d = document.createElement("div"); d.className="grupo";
+      d.innerHTML = "<h3>"+esc(g.g)+"</h3>";
+      var ch = document.createElement("div"); ch.className="chips";
+      g.items.forEach(function(it){
+        var b = document.createElement("button"); b.type="button"; b.className="chip"; b.textContent = it[0];
+        b.onclick = function(){ editor.value = it[1]; window.scrollTo({top:0,behavior:"smooth"}); editor.focus(); };
+        ch.appendChild(b);
+      });
+      d.appendChild(ch); c.appendChild(d);
+    });
+  }
+
+  // ---------- tema ----------
+  function aplicarTema(t){ if(t) document.documentElement.setAttribute("data-theme", t); else document.documentElement.removeAttribute("data-theme"); }
+  aplicarTema(leer(CLAVE_TEMA));
+  $("btnTema").onclick = function(){
+    var oscuroAhora = document.documentElement.getAttribute("data-theme")==="dark" ||
+      (!document.documentElement.getAttribute("data-theme") && window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches);
+    var nuevo = oscuroAhora ? "light" : "dark";
+    aplicarTema(nuevo); guardar(CLAVE_TEMA, nuevo);
+  };
+
+  // ---------- inicio ----------
+  initSqlJs({ locateFile: function(f){ return WASM_BASE + f; } }).then(function(S){
+    SQL = S;
+    var guardada = leer(CLAVE_DB);
+    try{
+      if(guardada){ db = new SQL.Database(deBase64(guardada)); db.exec("PRAGMA foreign_keys = ON;"); }
+      else db = dbNueva();
+    }catch(e){ db = dbNueva(); }
+    armarTeclas(); armarEjemplos(); pintarTablas(); pintarHist();
+    $("cargando").hidden = true; $("app").hidden = false;
+    $("estado").textContent = "Ctrl + Enter para ejecutar";
+    $("btnEjecutar").onclick = ejecutar;
+    $("btnLimpiar").onclick = function(){ editor.value=""; editor.focus(); };
+    $("btnReiniciar").onclick = function(){
+      if(!window.confirm("Se borran todas tus tablas y cambios, y vuelve la tabla alumnos original. ¿Continuar?")) return;
+      db.close(); db = dbNueva(); borrar(CLAVE_DB); pintarTablas();
+      $("salida").innerHTML = '<div class="msg ok"><b>Listo:</b> la base de datos volvió al estado inicial.</div>';
+    };
+    editor.addEventListener("keydown", function(e){
+      if((e.ctrlKey||e.metaKey) && e.key==="Enter"){ e.preventDefault(); ejecutar(); }
+    });
+  }).catch(function(){
+    $("cargando").innerHTML = "No se pudo cargar el motor de base de datos. Revisá la conexión a internet y recargá la página.";
+  });
+})();
+</script>
+</body>
+</html>
