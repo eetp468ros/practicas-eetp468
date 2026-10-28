@@ -135,18 +135,18 @@ window.PROYECTOS = [
     curso: "6° A",
     anio: 2026,
     estado: "En desarrollo",
-    alumnos: ["Nombre Apellido", "Nombre Apellido"],
+    alumnos: [],
     docente: "Martin Luraschi",
     descripcion: [
       "Mini servidor de bases de datos de la EETP N°468, destinado a las prácticas de los alumnos de la especialidad. Permite crear,  consultar y administrar bases de datos mediante el lenguaje SQL, como apoyo a los espacios de programación y desarrollo de software.",
-      "Segundo párrafo: cómo funciona."
+      "Funciona directamente en el navegador, en el celular o en la compu, sin instalar nada: trae una tabla de alumnos cargada, ejemplos de CREATE TABLE, INSERT, SELECT, UPDATE y DELETE para tocar y probar, y explica los errores en castellano. Las tablas de cada alumno quedan guardadas en su dispositivo."
     ],
-    materiales: ["HTML", "CCS"],
+    materiales: ["HTML", "CSS", "JavaScript", "SQLite en el navegador (sql.js)"],
     etiquetas: ["SQL", "base de datos", "tablas"],
     imagen: "proyectos/laboratorio-sql/portada.jpg",
     galeria: [],
-    enlaces: [{ texto: "Video", url: "https://..." }],
-    codigo: "https://github.com/eetp468ros/practicas-eetp468/"
+    enlaces: [{ texto: "Abrir el laboratorio", url: "https://sql.eetp468.edu.ar" }],
+    codigo: "https://github.com/eetp468ros/practicas-eetp468/tree/HEAD/laboratorio-sql"
   },
 
   {
