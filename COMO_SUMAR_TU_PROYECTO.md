@@ -1,5 +1,11 @@
 # Cómo sumar tu proyecto a la página
 
+> **Alumnos:** la forma más fácil es el formulario. Entrá a
+> <https://practicas.eetp468.edu.ar/#sumar> y tocá **«Cargar mi proyecto»**.
+> El docente revisa el envío y lo publica.
+>
+> Esta guía explica cómo cargar un proyecto **a mano** en GitHub (para docentes).
+
 La página de proyectos (`index.html`) lee todos los proyectos de **un solo archivo**: `proyectos.js`.
 Para que tu proyecto aparezca, solo tenés que agregar tu ficha ahí.
 
@@ -36,6 +42,7 @@ en «¿Cómo sumo mi proyecto?») y pegala dentro de la lista, después del últ
 | `estado` | `"En desarrollo"` o `"Terminado"`. |
 | `alumnos` | Lista con los nombres del grupo: `["Ana Pérez", "Juan Gómez"]`. |
 | `docente` | Nombre del profe a cargo. |
+| `horas` | Horas de trabajo del proyecto. **Las completa el docente al evaluarlo**; con `0` no se muestran. |
 | `descripcion` | Uno o más párrafos: qué problema resuelve y cómo funciona. |
 | `materiales` | Componentes y tecnologías usadas. |
 | `etiquetas` | Palabras para buscarlo: `["arduino", "riego", "humedad"]`. |

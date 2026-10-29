@@ -275,6 +275,7 @@ codigo: "https://github.com/eetp468ros/practicas-eetp468/tree/HEAD/proyectos/pru
     estado: "En desarrollo",          // "En desarrollo" o "Terminado"
     alumnos: ["Nombre Apellido", "Nombre Apellido"],
     docente: "Nombre del profe",
+    horas: 0,                         // horas de trabajo: las completa el docente al evaluar (0 = no se muestra)
     descripcion: [
       "Primer párrafo: qué problema resuelve.",
       "Segundo párrafo: cómo funciona."

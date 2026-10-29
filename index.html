@@ -155,9 +155,14 @@ select{font:inherit;border:1px solid var(--line);background:var(--bg);border-rad
 .step h3{margin:0 0 4px;font:800 17px var(--fh)}
 .step p{margin:0;font-size:14px;opacity:.9}
 .step code,.howto code{background:#0005;border-radius:5px;padding:1px 5px;font-size:13px}
-.tpl{position:relative;margin-top:20px}
-.tpl pre{background:#0a1430;color:#cfe3ff;border-radius:14px;padding:18px;overflow:auto;font:13px/1.5 ui-monospace,Consolas,monospace;margin:0;max-height:340px}
-.tpl button{position:absolute;right:12px;top:12px}
+.cta-form{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:0 0 24px;position:relative}
+.cta-form span{font-size:14px;opacity:.85}
+.btn.grande{font-size:17px;padding:15px 24px}
+.btn.off{opacity:.6;pointer-events:none;box-shadow:none}
+.tips{position:relative;margin-top:18px;background:#0a143066;border:1px solid #ffffff2e;border-radius:16px;padding:16px 20px}
+.tips h3{margin:0 0 6px;font:800 17px var(--fh)}
+.tips ul{margin:0;padding-left:20px;font-size:14px;opacity:.92}
+.tips li{margin:4px 0}
 
 footer{background:var(--azul2);color:#cdd9f0;padding:34px 0;margin-top:30px}
 footer .wrap{display:flex;gap:20px;align-items:center;flex-wrap:wrap}
@@ -221,16 +226,25 @@ footer a{color:var(--celeste2)}
     <div class="wrap">
       <div class="howto">
         <h2>¿Cómo sumo mi proyecto?</h2>
-        <p>Cada grupo agrega su proyecto editando un solo archivo.</p>
-        <div class="steps">
-          <div class="step"><b>1</b><h3>Subí tu código</h3><p>Creá una carpeta para tu proyecto en el repositorio con el programa (<code>.ino</code>) y un README.</p></div>
-          <div class="step"><b>2</b><h3>Sacá fotos</h3><p>Guardalas en <code>proyectos/tu-proyecto/</code>. Una se usa de portada (mejor horizontal).</p></div>
-          <div class="step"><b>3</b><h3>Completá la ficha</h3><p>Abrí <code>proyectos.js</code>, copiá la plantilla de abajo y completá tus datos.</p></div>
-          <div class="step"><b>4</b><h3>Revisión del profe</h3><p>Pedí la revisión. Cuando se aprueba, tu proyecto aparece en esta página.</p></div>
+        <p>Completá un formulario con los datos, las fotos y el código. El docente lo revisa y lo publica en esta página.</p>
+        <div class="cta-form">
+          <a class="btn pri grande" id="formulario" target="_blank" rel="noopener">📝 Cargar mi proyecto</a>
+          <span>Tarda unos 10 minutos · hay que iniciar sesión con una cuenta de Google</span>
         </div>
-        <div class="tpl">
-          <pre id="tpl"></pre>
-          <button class="btn pri" id="copy">📋 Copiar plantilla</button>
+        <div class="steps">
+          <div class="step"><b>1</b><h3>Prepará el material</h3><p>Una foto de portada (mejor horizontal), una foto del grupo, hasta 5 fotos del proceso y los archivos del código (<code>.ino</code>, <code>.html</code>…).</p></div>
+          <div class="step"><b>2</b><h3>Completá el formulario</h3><p>Nombre del proyecto, resumen, integrantes, qué problema resuelve, cómo funciona y, si tienen, el link al video o a la página web.</p></div>
+          <div class="step"><b>3</b><h3>Recibí la confirmación</h3><p>Te llega un mail avisando que el proyecto se recibió.</p></div>
+          <div class="step"><b>4</b><h3>Revisión y publicación</h3><p>El docente revisa todo y, cuando lo aprueba, el proyecto aparece en esta página.</p></div>
+        </div>
+        <div class="tips">
+          <h3>💡 Antes de enviar</h3>
+          <ul>
+            <li>Fotos nítidas y con buena luz. La portada, en horizontal.</li>
+            <li>Subí <b>solo los archivos del proyecto</b>: nunca contraseñas, claves ni archivos personales, porque el código queda publicado.</li>
+            <li>Los links, completos y empezando con <code>https://</code>.</li>
+            <li>Todos los integrantes tienen que estar de acuerdo en publicar sus nombres y sus fotos.</li>
+          </ul>
         </div>
       </div>
     </div>
@@ -284,6 +298,7 @@ const P=(Array.isArray(window.PROYECTOS)?window.PROYECTOS:[]).filter(p=>p&&p.tit
   titulo:String(p.titulo), resumen:String(p.resumen||""), area:p.area, curso:String(p.curso||""),
   anio:p.anio?String(p.anio):"", estado:p.estado==="Terminado"?"Terminado":"En desarrollo",
   alumnos:list(p.alumnos).map(String), docente:String(p.docente||""),
+  horas:Number(p.horas)>0?Math.round(Number(p.horas)*10)/10:0,
   descripcion:list(p.descripcion).map(String), materiales:list(p.materiales).map(String),
   etiquetas:list(p.etiquetas).map(String), imagen:url(p.imagen), galeria:list(p.galeria).map(url).filter(Boolean),
   enlaces:list(p.enlaces).filter(e=>e&&web(e.url)).map(e=>({texto:String(e.texto||"Abrir"),url:web(e.url)})),
@@ -374,7 +389,7 @@ function openDet(p){
           <div class="people">${p.alumnos.length?p.alumnos.map(a=>`<div class="person"><i>${esc(initials(a))}</i>${esc(a)}</div>`).join(""):`<span class="empty">A completar por el grupo</span>`}</div>
           ${p.docente?`<h4>Docente</h4><div class="person"><i>${esc(initials(p.docente))}</i>${esc(p.docente)}</div>`:""}
           <h4>Datos</h4>
-          <div>${p.curso?`🎓 ${esc(p.curso)}<br>`:""}${p.anio?`📅 ${esc(p.anio)}<br>`:""}${AREAS[areaOf(p)].ic} ${esc(areaOf(p))}</div>
+          <div>${p.curso?`🎓 ${esc(p.curso)}<br>`:""}${p.anio?`📅 ${esc(p.anio)}<br>`:""}${p.horas?`⏱️ ${String(p.horas).replace(".",",")} h de trabajo<br>`:""}${AREAS[areaOf(p)].ic} ${esc(areaOf(p))}</div>
           ${p.etiquetas.length?`<h4>Etiquetas</h4><div class="tags">${p.etiquetas.map(t=>`<span class="tag">#${esc(t)}</span>`).join("")}</div>`:""}
         </aside>
       </div>
@@ -392,34 +407,14 @@ $("#veil").addEventListener("click",e=>{if(e.target.id==="veil"||e.target.id==="
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&$("#veil").classList.contains("on"))closeDet();});
 addEventListener("hashchange",route);
 
-/* ---------- plantilla para copiar ---------- */
-const TPL=`  {
-    id: "nombre-corto-sin-espacios",
-    titulo: "Nombre del proyecto",
-    resumen: "Una oración que explique qué hace.",
-    area: "Electrónica",
-    curso: "6° A",
-    anio: ${new Date().getFullYear()},
-    estado: "En desarrollo",
-    alumnos: ["Nombre Apellido", "Nombre Apellido"],
-    docente: "Nombre del profe",
-    descripcion: [
-      "Primer párrafo: qué problema resuelve.",
-      "Segundo párrafo: cómo funciona."
-    ],
-    materiales: ["Arduino Uno", "Sensor ..."],
-    etiquetas: ["arduino"],
-    imagen: "proyectos/nombre-corto-sin-espacios/portada.jpg",
-    galeria: [],
-    enlaces: [{ texto: "Video", url: "https://..." }],
-    codigo: "https://github.com/eetp468ros/practicas-eetp468/tree/HEAD/carpeta"
-  },`;
-$("#tpl").textContent=TPL;
-$("#copy").onclick=()=>{
-  const done=()=>{$("#copy").textContent="✅ ¡Copiada!";setTimeout(()=>$("#copy").textContent="📋 Copiar plantilla",1800);};
-  if(navigator.clipboard)navigator.clipboard.writeText(TPL).then(done,()=>{});
-  else{const r=document.createRange();r.selectNode($("#tpl"));getSelection().removeAllRanges();getSelection().addRange(r);document.execCommand("copy");done();}
-};
+/* ---------- formulario para sumar proyectos ---------- */
+// Link del formulario de Google (el que se les pasa a los alumnos, termina en /viewform)
+const FORMULARIO="https://docs.google.com/forms/d/e/1FAIpQLSe6nnhoGS4SOjnwE6uoQFd4kkyeI_WCYfsEF0soRq7EfpBBZA/viewform";
+(()=>{
+  const a=$("#formulario"),u=url(FORMULARIO);
+  if(/^https?:\/\//i.test(u))a.href=u;
+  else{a.classList.add("off");a.removeAttribute("target");a.textContent="📝 Formulario disponible pronto";}
+})();
 
 /* ---------- barra superior ---------- */
 const nav=$("#nav");
