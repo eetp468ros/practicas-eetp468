@@ -261,6 +261,29 @@ codigo: "https://github.com/eetp468ros/practicas-eetp468/tree/HEAD/proyectos/pru
     codigo: ""
   },
 
+   {
+    id: "ticket-soporte-tecnico",
+    titulo: "TICKET SOPORTE TECNICO",
+    resumen: "Sistema para el seguimento de reparaciones.",
+    area: "Otro",
+    curso: "6°A",
+    anio: 2026,
+    estado: "En desarrollo",
+    alumnos: ["Santiago Martin"],
+    docente: "Martin Luraschi",
+    horas: 10,                         // horas de trabajo: las completa el docente al evaluar
+    descripcion: [
+      "Nos permite controlar las tareas realizadas por los alumnos.",
+      "Utiliza una planilla de Google Sheet con scripts."
+    ],
+    materiales: ["HTML / CSS / JavaScript"],
+    etiquetas: ["redes", "base de datos"],
+    imagen: "proyectos/ticket-soporte-tecnico/portada.jpg",
+    galeria: ["proyectos/ticket-soporte-tecnico/equipo.jpg", "proyectos/ticket-soporte-tecnico/proceso-1.jpg"],
+    enlaces: [{ texto: "Abrir la página", url: "https://ticket.eetp468edu.ar" }],
+    codigo: ""
+  },
+
 
   /* ---------- PLANTILLA: copiá desde la { hasta la }, pegala arriba
      (después de la } del último proyecto, poniendo una coma antes) ----------
