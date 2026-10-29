@@ -195,6 +195,28 @@ window.PROYECTOS = [
 codigo: "https://github.com/eetp468ros/practicas-eetp468/tree/HEAD/proyectos/prueba/codigo"
    },
 
+   {
+    id: "riego-automatico",
+    titulo: "Riego automatico",
+    resumen: "Prueba de riego automatico",
+    area: "Robótica",
+    curso: "6°A",
+    anio: 2026,
+    estado: "Terminado",
+    alumnos: ["Juan Cruz", "Pedro Lima"],
+    docente: "MLuraschi",
+    descripcion: [
+      "Riego en horarios sin gente",
+      "Usa un Arduino nano para controlar el riego."
+    ],
+    materiales: ["Arduino Nano", "Buzzer"],
+    etiquetas: ["arduino", "robótica"],
+    imagen: "proyectos/riego-automatico/portada.jpg",
+    galeria: ["proyectos/riego-automatico/equipo.jpg", "proyectos/riego-automatico/proceso-1.jpg"],
+    enlaces: [],
+    codigo: "https://github.com/eetp468ros/practicas-eetp468/tree/HEAD/proyectos/riego-automatico/codigo"
+  },
+
 
   /* ---------- PLANTILLA: copiá desde la { hasta la }, pegala arriba
      (después de la } del último proyecto, poniendo una coma antes) ----------
