@@ -235,7 +235,7 @@ codigo: "https://github.com/eetp468ros/practicas-eetp468/tree/HEAD/proyectos/pru
     etiquetas: ["Informatica"],
     imagen: "proyectos/totem-informacion/portada.jpg",
     galeria: ["proyectos/totem-informacion/equipo.jpg", "proyectos/totem-informacion/proceso-1.jpg"],
-    enlaces: [],
+    enlaces: [{ texto: "Abrir la página", url: "https://practicas.eetp468.edu.ar/" }],
     codigo: "https://github.com/eetp468ros/practicas-eetp468/tree/HEAD/proyectos/totem-informacion/codigo"
   },
 
