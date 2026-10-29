@@ -195,7 +195,7 @@ WEB.",
      enlaces: [],
 
 codigo: "https://github.com/eetp468ros/practicas-eetp468/tree/HEAD/proyectos/prueba/codigo"
-   }
+   },
 
   /* ---------- PLANTILLA: copiá desde la { hasta la }, pegala arriba
      (después de la } del último proyecto, poniendo una coma antes) ----------
