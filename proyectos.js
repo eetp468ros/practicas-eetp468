@@ -239,6 +239,28 @@ codigo: "https://github.com/eetp468ros/practicas-eetp468/tree/HEAD/proyectos/pru
     codigo: "https://github.com/eetp468ros/practicas-eetp468/tree/HEAD/proyectos/totem-informacion/codigo"
   },
 
+   {
+    id: "fuente-variable",
+    titulo: "Fuente variable",
+    resumen: "Fuente variable de prueba",
+    area: "Electrónica",
+    curso: "6°A",
+    anio: 2026,
+    estado: "En desarrollo",
+    alumnos: ["Aldo Puchot", "Santiago Martin"],
+    docente: "Martin Luraschi",
+    descripcion: [
+      "Se utiliza para realizar pruebas con diferentes tensiones.",
+      "Utilizamos una fuente ATX reciclada."
+    ],
+    materiales: ["Fuente ATX"],
+    etiquetas: ["energía", "reciclaje"],
+    imagen: "proyectos/fuente-variable/portada.jpg",
+    galeria: ["proyectos/fuente-variable/equipo.jpg", "proyectos/fuente-variable/proceso-1.jpg"],
+    enlaces: [{ texto: "Abrir la página", url: "www.atx.com.ar" }],
+    codigo: ""
+  },
+
 
   /* ---------- PLANTILLA: copiá desde la { hasta la }, pegala arriba
      (después de la } del último proyecto, poniendo una coma antes) ----------
