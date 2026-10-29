@@ -217,6 +217,28 @@ codigo: "https://github.com/eetp468ros/practicas-eetp468/tree/HEAD/proyectos/pru
     codigo: "https://github.com/eetp468ros/practicas-eetp468/tree/HEAD/proyectos/riego/codigo"
   },
 
+     {
+    id: "totem-informacion",
+    titulo: "Totem Información",
+    resumen: "Sistema de información con  pantalla touch.",
+    area: "Electrónica",
+    curso: "6° A",
+    anio: 2026,
+    estado: "En desarrollo",
+    alumnos: ["Mateo Flores"],
+    docente: "Martin Luraschi",
+    descripcion: [
+      "Suministra información a la gente que concurre a la escuela.",
+      "Utiliza una pantalla touch reciclada con un sistema linux optimizado."
+    ],
+    materiales: ["Pantalla LCD / OLED", "HTML / CSS / JavaScript", "PC"],
+    etiquetas: ["Informatica"],
+    imagen: "proyectos/totem-informacion/portada.jpg",
+    galeria: ["proyectos/totem-informacion/equipo.jpg", "proyectos/totem-informacion/proceso-1.jpg"],
+    enlaces: [],
+    codigo: "https://github.com/eetp468ros/practicas-eetp468/tree/HEAD/proyectos/totem-informacion/codigo"
+  },
+
 
   /* ---------- PLANTILLA: copiá desde la { hasta la }, pegala arriba
      (después de la } del último proyecto, poniendo una coma antes) ----------
