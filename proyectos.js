@@ -179,12 +179,10 @@ window.PROYECTOS = [
      curso: "6°A",
      anio: 2026,
      estado: "En desarrollo",
-     alumnos: ["Juan Perez", "Roberto Sanchez", "Lino Rojos", "Pedro 
-Casio", "Rodolfo Nesh"],
+     alumnos: ["Juan Perez", "Roberto Sanchez", "Lino Rojos", "Pedro Casio", "Rodolfo Nesh"],
      docente: "Martin Luraschi",
      descripcion: [
-       "Permite determinar la calidad del proyecto antes de publicarlo en la 
-WEB.",
+       "Permite determinar la calidad del proyecto antes de publicarlo en la WEB.",
        "Es un formulario que genera una serie de validaciones."
      ],
      materiales: ["Arduino Uno", "ESP32", "Impresión 3D"],
