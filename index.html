@@ -298,6 +298,7 @@ const P=(Array.isArray(window.PROYECTOS)?window.PROYECTOS:[]).filter(p=>p&&p.tit
   titulo:String(p.titulo), resumen:String(p.resumen||""), area:p.area, curso:String(p.curso||""),
   anio:p.anio?String(p.anio):"", estado:p.estado==="Terminado"?"Terminado":"En desarrollo",
   alumnos:list(p.alumnos).map(String), docente:String(p.docente||""),
+  horas:Number(p.horas)>0?Math.round(Number(p.horas)*10)/10:0,
   descripcion:list(p.descripcion).map(String), materiales:list(p.materiales).map(String),
   etiquetas:list(p.etiquetas).map(String), imagen:url(p.imagen), galeria:list(p.galeria).map(url).filter(Boolean),
   enlaces:list(p.enlaces).filter(e=>e&&web(e.url)).map(e=>({texto:String(e.texto||"Abrir"),url:web(e.url)})),
@@ -388,7 +389,7 @@ function openDet(p){
           <div class="people">${p.alumnos.length?p.alumnos.map(a=>`<div class="person"><i>${esc(initials(a))}</i>${esc(a)}</div>`).join(""):`<span class="empty">A completar por el grupo</span>`}</div>
           ${p.docente?`<h4>Docente</h4><div class="person"><i>${esc(initials(p.docente))}</i>${esc(p.docente)}</div>`:""}
           <h4>Datos</h4>
-          <div>${p.curso?`🎓 ${esc(p.curso)}<br>`:""}${p.anio?`📅 ${esc(p.anio)}<br>`:""}${AREAS[areaOf(p)].ic} ${esc(areaOf(p))}</div>
+          <div>${p.curso?`🎓 ${esc(p.curso)}<br>`:""}${p.anio?`📅 ${esc(p.anio)}<br>`:""}${p.horas?`⏱️ ${String(p.horas).replace(".",",")} h de trabajo<br>`:""}${AREAS[areaOf(p)].ic} ${esc(areaOf(p))}</div>
           ${p.etiquetas.length?`<h4>Etiquetas</h4><div class="tags">${p.etiquetas.map(t=>`<span class="tag">#${esc(t)}</span>`).join("")}</div>`:""}
         </aside>
       </div>

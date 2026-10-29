@@ -42,6 +42,7 @@ en «¿Cómo sumo mi proyecto?») y pegala dentro de la lista, después del últ
 | `estado` | `"En desarrollo"` o `"Terminado"`. |
 | `alumnos` | Lista con los nombres del grupo: `["Ana Pérez", "Juan Gómez"]`. |
 | `docente` | Nombre del profe a cargo. |
+| `horas` | Horas de trabajo del proyecto. **Las completa el docente al evaluarlo**; con `0` no se muestran. |
 | `descripcion` | Uno o más párrafos: qué problema resuelve y cómo funciona. |
 | `materiales` | Componentes y tecnologías usadas. |
 | `etiquetas` | Palabras para buscarlo: `["arduino", "riego", "humedad"]`. |
