@@ -1,0 +1,10 @@
+#!/bin/bash
+nomacs -f -d /home/admin/Downloads &
+sleep 2
+xdotool key space
+
+
+nano ~/inicio_nomacs.sh
+
+chmod +x ~/inicio_nomacs.sh
+
