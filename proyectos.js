@@ -171,6 +171,32 @@ window.PROYECTOS = [
     codigo: "https://github.com/eetp468ros/practicas-eetp468/tree/HEAD/barrido_buzzers"
   }
 
+   {
+     id: "prueba",
+     titulo: "Prueba",
+     resumen: "Prueba de la prueba",
+     area: "Robótica",
+     curso: "6°A",
+     anio: 2026,
+     estado: "En desarrollo",
+     alumnos: ["Juan Perez", "Roberto Sanchez", "Lino Rojos", "Pedro 
+Casio", "Rodolfo Nesh"],
+     docente: "Martin Luraschi",
+     descripcion: [
+       "Permite determinar la calidad del proyecto antes de publicarlo en la 
+WEB.",
+       "Es un formulario que genera una serie de validaciones."
+     ],
+     materiales: ["Arduino Uno", "ESP32", "Impresión 3D"],
+     etiquetas: ["arduino", "sensores", "domótica"],
+     imagen: "proyectos/prueba/portada.jpg",
+     galeria: 
+["proyectos/prueba/equipo.jpg", "proyectos/prueba/proceso-1.jpg", "proyectos/prueba/proceso-2.jpg"],
+     enlaces: [],
+
+codigo: "https://github.com/eetp468ros/practicas-eetp468/tree/HEAD/proyectos/prueba/codigo"
+   },
+
   /* ---------- PLANTILLA: copiá desde la { hasta la }, pegala arriba
      (después de la } del último proyecto, poniendo una coma antes) ----------
 
