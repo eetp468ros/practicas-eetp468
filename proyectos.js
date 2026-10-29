@@ -211,10 +211,10 @@ codigo: "https://github.com/eetp468ros/practicas-eetp468/tree/HEAD/proyectos/pru
     ],
     materiales: ["Arduino Nano", "Buzzer"],
     etiquetas: ["arduino", "robótica"],
-    imagen: "proyectos/riego-automatico/portada.jpg",
-    galeria: ["proyectos/riego-automatico/equipo.jpg", "proyectos/riego-automatico/proceso-1.jpg"],
+    imagen: "proyectos/riego/portada.jpg",
+    galeria: ["proyectos/riego/equipo.jpg", "proyectos/riego/proceso-1.jpg"],
     enlaces: [],
-    codigo: "https://github.com/eetp468ros/practicas-eetp468/tree/HEAD/proyectos/riego-automatico/codigo"
+    codigo: "https://github.com/eetp468ros/practicas-eetp468/tree/HEAD/proyectos/riego/codigo"
   },
 
 
