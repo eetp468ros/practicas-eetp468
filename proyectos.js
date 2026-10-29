@@ -169,7 +169,7 @@ window.PROYECTOS = [
     galeria: [],
     enlaces: [],
     codigo: "https://github.com/eetp468ros/practicas-eetp468/tree/HEAD/barrido_buzzers"
-  },
+  }
 
   /* ---------- PLANTILLA: copiá desde la { hasta la }, pegala arriba
      (después de la } del último proyecto, poniendo una coma antes) ----------
