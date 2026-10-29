@@ -214,7 +214,7 @@ codigo: "https://github.com/eetp468ros/practicas-eetp468/tree/HEAD/proyectos/pru
     imagen: "proyectos/riego/portada.jpg",
     galeria: ["proyectos/riego/equipo.jpg", "proyectos/riego/proceso-1.jpg"],
     enlaces: [],
-    codigo: "https://github.com/eetp468ros/practicas-eetp468/tree/HEAD/proyectos/riego/codigo"
+    codigo: ""
   },
 
      {
@@ -257,7 +257,7 @@ codigo: "https://github.com/eetp468ros/practicas-eetp468/tree/HEAD/proyectos/pru
     etiquetas: ["energía", "reciclaje"],
     imagen: "proyectos/fuente-variable/portada.jpg",
     galeria: ["proyectos/fuente-variable/equipo.jpg", "proyectos/fuente-variable/proceso-1.jpg"],
-    enlaces: [{ texto: "Abrir la página", url: "www.atx.com.ar" }],
+    enlaces: [{ texto: "Abrir la página", url: "https://www.atx.com.ar" }],
     codigo: ""
   },
 

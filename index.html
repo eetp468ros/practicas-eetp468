@@ -271,6 +271,9 @@ const $=s=>document.querySelector(s);
 const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 // solo enlaces web o rutas del propio sitio (nada de javascript: ni data:)
 const url=u=>{u=String(u||"").trim();return /^[a-z][\w+.-]*:/i.test(u)&&!/^https?:\/\//i.test(u)?"":u;};
+// «www.algo.com» o «algo.com.ar» sin https:// se toman como direcciones de otro sitio (si no, el navegador
+// las abre dentro de esta página: practicas.eetp468.edu.ar/www.algo.com)
+const web=u=>{u=url(u);return u&&!/^https?:\/\//i.test(u)&&(/^www\./i.test(u)||/^[a-z0-9-]+(\.[a-z0-9-]+)*\.[a-z]{2,}(\/|$)/i.test(u)&&!/\.(html?|js|css|jpe?g|png|gif|webp|pdf|ino|txt|md)(\/|$)/i.test(u.split(/[?#]/)[0]))?"https://"+u:u;};
 const list=v=>Array.isArray(v)?v.filter(x=>x!=null&&x!==""):(v?[v]:[]);
 const areaOf=p=>AREAS[p.area]?p.area:"Otro";
 const initials=n=>String(n).trim().split(/\s+/).slice(0,2).map(w=>w[0]).join("").toUpperCase();
@@ -283,8 +286,8 @@ const P=(Array.isArray(window.PROYECTOS)?window.PROYECTOS:[]).filter(p=>p&&p.tit
   alumnos:list(p.alumnos).map(String), docente:String(p.docente||""),
   descripcion:list(p.descripcion).map(String), materiales:list(p.materiales).map(String),
   etiquetas:list(p.etiquetas).map(String), imagen:url(p.imagen), galeria:list(p.galeria).map(url).filter(Boolean),
-  enlaces:list(p.enlaces).filter(e=>e&&url(e.url)).map(e=>({texto:String(e.texto||"Abrir"),url:url(e.url)})),
-  codigo:url(p.codigo)
+  enlaces:list(p.enlaces).filter(e=>e&&web(e.url)).map(e=>({texto:String(e.texto||"Abrir"),url:web(e.url)})),
+  codigo:web(p.codigo)
 })).sort((a,b)=>(b.anio||"").localeCompare(a.anio||"")||a.titulo.localeCompare(b.titulo,"es"));
 
 /* ---------- portada: números ---------- */
