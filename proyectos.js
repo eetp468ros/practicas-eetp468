@@ -280,7 +280,7 @@ codigo: "https://github.com/eetp468ros/practicas-eetp468/tree/HEAD/proyectos/pru
     etiquetas: ["redes", "base de datos"],
     imagen: "proyectos/ticket-soporte-tecnico/portada.jpg",
     galeria: ["proyectos/ticket-soporte-tecnico/equipo.jpg", "proyectos/ticket-soporte-tecnico/proceso-1.jpg"],
-    enlaces: [{ texto: "Abrir la página", url: "https://ticket.eetp468edu.ar" }],
+    enlaces: [{ texto: "Abrir la página", url: "https://ticket.eetp468.edu.ar" }],
     codigo: ""
   },
 
