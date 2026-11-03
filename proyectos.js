@@ -265,7 +265,7 @@ codigo: "https://github.com/eetp468ros/practicas-eetp468/tree/HEAD/proyectos/pru
     id: "ticket-soporte-tecnico",
     titulo: "TICKET SOPORTE TECNICO",
     resumen: "Sistema para el seguimento de reparaciones.",
-    area: "Otro",
+    area: "WEB",
     curso: "6°A",
     anio: 2026,
     estado: "En desarrollo",
