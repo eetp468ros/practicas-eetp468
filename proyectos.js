@@ -292,7 +292,7 @@ codigo: "https://github.com/eetp468ros/practicas-eetp468/tree/HEAD/proyectos/pru
     id: "nombre-corto-sin-espacios",
     titulo: "Nombre del proyecto",
     resumen: "Una oración que explique qué hace.",
-    area: "Electrónica",              // Electrónica, Robótica, Redes, Programación, Base de datos, Automatización, Energía u Otro
+    area: "Electrónica",              // Electrónica, Robótica, Redes, Programación, Base de datos, WEB, Automatización, Energía u Otro
     curso: "6° A",
     anio: 2026,
     estado: "En desarrollo",          // "En desarrollo" o "Terminado"
