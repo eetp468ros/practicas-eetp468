@@ -99,7 +99,7 @@ window.PROYECTOS = [
     ],
     materiales: ["Arduino Uno", "Sensor de gas MQ-5", "Buzzer", "LEDs y resistencias"],
     etiquetas: ["arduino", "seguridad", "gas", "alarma"],
-    imagen: "proyectos/sensor-gas-mq5/portada.jpg",
+    imagen: "proyectos/sensor-gas-mq5/portada2.jpg",
     galeria: [],
     enlaces: [],
     codigo: "https://github.com/eetp468ros/practicas-eetp468/tree/HEAD/sensor_gas_mq5"
