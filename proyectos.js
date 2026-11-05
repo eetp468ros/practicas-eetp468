@@ -91,8 +91,8 @@ window.PROYECTOS = [
     curso: "6°A",
     anio: 2026,
     estado: "En desarrollo",
-    alumnos: ["Grupo Milena"],
-    docente: "",
+    alumnos: ["Milena Gomez", "Morena Paz"],
+    docente: "Martin Luraschi",
     descripcion: [
       "Lee el sensor de gas MQ-5 y, si la concentración supera un límite, enciende la alarma con un buzzer y un LED.",
       "Al arrancar hace un pitido corto para comprobar que el buzzer funciona y deja un LED encendido mientras la placa está funcionando."
