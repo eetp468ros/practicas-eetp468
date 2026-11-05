@@ -41,14 +41,14 @@ window.PROYECTOS = [
 
   {
     id: "baston-inteligente",
-    titulo: "Bastón inteligente",
+    titulo: "Prototipo Bastón inteligente",
     resumen: "Bastón para personas con discapacidad visual que avisa de obstáculos con sonido y vibración.",
     area: "Electrónica",
     curso: "6°A",
     anio: 2026,
     estado: "En desarrollo",
     alumnos: [],
-    docente: "",
+    docente: "Martin Luraschi",
     descripcion: [
       "Mide la distancia a los obstáculos con un sensor ultrasónico HC-SR04 y avisa de dos maneras: un buzzer que pita más seguido y más agudo cuanto más cerca está el obstáculo, y un micro motor de vibración que vibra más fuerte.",
       "El motor se maneja con un transistor, porque el pin del Arduino no puede darle toda la corriente que necesita."
