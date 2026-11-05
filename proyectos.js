@@ -23,7 +23,7 @@ window.PROYECTOS = [
     anio: 2026,
     estado: "Terminado",
     alumnos: [],
-    docente: "",
+    docente: "Martin Luraschi",
     descripcion: [
       "Página web interactiva para aprender cómo se arma un datacenter: se agregan racks, se colocan equipos (patch panel, switch core, switches ToR, router, servidores, NAS y UPS) y se conectan con cables UTP, fibra óptica o eléctricos.",
       "La versión avanzada suma el consumo de cada equipo y la capacidad de cada UPS: muestra la carga, la autonomía de la batería y qué pasa cuando hay una sobrecarga."
