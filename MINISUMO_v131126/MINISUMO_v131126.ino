@@ -6,6 +6,7 @@ int VelocidadAtaque = 230;           /*-----> Valor entre 70 y 255<----*/
 int VelocidadGiro = 170;             /*-----> Antes 80 Valor entre 70 y 255<----*/
 int Distanciaoponente = 40;          /*-----> Valor entre 10 y 70 (el dohyo mide 77 cm)<----*/
 unsigned long PasoGiroBusqueda = 40;      /*-----> ms de cada pasito de giro (mas chico = barrido mas fino)<----*/
+unsigned long PausaGiroBusqueda = 80;     /*-----> ms quieto entre pasitos para medir<----*/
 unsigned long TiempoGiroBusqueda = 3000;  /*-----> ms buscando en el lugar (aprox. 1 vuelta)<----*/
 unsigned long TiempoAvanceBusqueda = 300; /*-----> ms avanzando antes de volver a girar<----*/
 /*----------------------------------*/
@@ -98,7 +99,12 @@ void Busqueda(){
     mD.motor(MotorDerecho,BACKWARD, VelocidadGiroBusqueda);
     mI.motor(MotorIzquierdo,FORWARD, VelocidadGiroBusqueda);
     delay(PasoGiroBusqueda);
+    // Freno activo: un toque de giro al reves corta la inercia
+    mD.motor(MotorDerecho,FORWARD, VelocidadGiroBusqueda);
+    mI.motor(MotorIzquierdo,BACKWARD, VelocidadGiroBusqueda);
+    delay(10);
     Frenar();
+    delay(PausaGiroBusqueda);  // quieto: da tiempo a frenar y a que el sensor se libere
     SensorLibre(200);
     if(transcurrido >= TiempoGiroBusqueda){
       buscandoGirando = false;
