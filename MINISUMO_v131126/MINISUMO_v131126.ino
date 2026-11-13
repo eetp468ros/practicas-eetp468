@@ -1,4 +1,4 @@
-/*version 13NOV2026 - busqueda girando en el lugar*/
+/*version 13NOV2026 - busqueda girando en el lugar, ataque respeta la linea*/
 /*Valores modificables para el Robot*/
 int VelocidadBusqueda = 100;         /*-----> Valor entre 70 y 255<----*/
 int VelocidadGiroBusqueda = 120;     /*-----> Valor entre 70 y 255 (si gira muy rapido no ve al rival)<----*/
@@ -52,7 +52,7 @@ void loop() {
         millisViejo=millis();
         while((millis()-millisViejo)<tiempoLimite){
           GiroDer();
-          while(SensorOponente()==1){Ataque();}
+          Atacar();
         }
         ReiniciarBusqueda();
       }
@@ -64,7 +64,7 @@ void loop() {
           millisViejo=millis();
           while((millis()-millisViejo)<tiempoLimite){
             GiroDer();
-            while(SensorOponente()==1){Ataque();}
+            Atacar();
           }
         }
         if(SensorLineaI()==1){
@@ -74,13 +74,13 @@ void loop() {
           millisViejo=millis();
           while((millis()-millisViejo)<tiempoLimite){
             GiroIzq();
-            while(SensorOponente()==1){Ataque();}
+            Atacar();
           }
         }
         ReiniciarBusqueda();
       }
       Busqueda();
-      while(SensorOponente()==1){Ataque();}
+      Atacar();
     }//while
   }//If
 } //Loop
@@ -112,6 +112,21 @@ void Busqueda(){
 void ReiniciarBusqueda(){
   buscandoGirando = true;
   inicioFaseBusqueda = millis();
+}
+
+// Ataca mientras vea al rival, pero corta apenas detecta la linea del borde
+// (antes el ataque no miraba la linea y el robot se podia salir del dohyo).
+// Para empezar a atacar pide 2 lecturas seguidas, asi un eco falso no lo dispara.
+void Atacar(){
+  if(HayLinea()){return;}
+  if(SensorOponente()==0){return;}
+  if(SensorOponente()==0){return;}
+  while(!HayLinea() and SensorOponente()==1){Ataque();}
+}
+
+int HayLinea(){
+  if(SensorLineaD()==1 or SensorLineaI()==1){return 1;}
+  return 0;
 }
 
 void Ataque(){
