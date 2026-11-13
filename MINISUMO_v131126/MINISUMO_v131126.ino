@@ -160,10 +160,9 @@ int SensorOponente(){
   delayMicroseconds(10); // el HC-SR04 necesita al menos 10 us
   digitalWrite(Trigger, LOW);
   
-  // Solo esperamos el eco hasta un poco mas alla de Distanciaoponente:
-  // si no vuelve en ese tiempo, no hay rival cerca y seguimos buscando
-  unsigned long timeout = (unsigned long)(Distanciaoponente + 20) * 58;
-  t = pulseIn(Echo, HIGH, timeout);
+  // Timeout amplio: algunos HC-SR04 tardan varios ms en empezar el eco,
+  // y con un timeout corto nunca llegaban a medir
+  t = pulseIn(Echo, HIGH, 25000);
   if (t == 0){return 0;} // sin eco = no hay rival (antes contaba como distancia 0)
 
   d = t * 0.000001 * 34300.0 / 2.0; 
