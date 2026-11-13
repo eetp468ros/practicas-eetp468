@@ -1,11 +1,12 @@
-/*version 13NOV2026 - busqueda girando en el lugar, ataque respeta la linea*/
+/*version 13NOV2026 - busqueda girando de a pasos, ataque respeta la linea*/
 /*Valores modificables para el Robot*/
 int VelocidadBusqueda = 100;         /*-----> Valor entre 70 y 255<----*/
-int VelocidadGiroBusqueda = 120;     /*-----> Valor entre 70 y 255 (si gira muy rapido no ve al rival)<----*/
+int VelocidadGiroBusqueda = 120;     /*-----> Valor entre 90 y 255 (fuerza de cada pasito de giro)<----*/
 int VelocidadAtaque = 230;           /*-----> Valor entre 70 y 255<----*/
 int VelocidadGiro = 170;             /*-----> Antes 80 Valor entre 70 y 255<----*/
 int Distanciaoponente = 40;          /*-----> Valor entre 10 y 70 (el dohyo mide 77 cm)<----*/
-unsigned long TiempoGiroBusqueda = 900;   /*-----> ms girando en el lugar buscando (aprox. 1 vuelta)<----*/
+unsigned long PasoGiroBusqueda = 40;      /*-----> ms de cada pasito de giro (mas chico = barrido mas fino)<----*/
+unsigned long TiempoGiroBusqueda = 3000;  /*-----> ms buscando en el lugar (aprox. 1 vuelta)<----*/
 unsigned long TiempoAvanceBusqueda = 300; /*-----> ms avanzando antes de volver a girar<----*/
 /*----------------------------------*/
 
@@ -91,8 +92,14 @@ void Busqueda(){
   unsigned long transcurrido = millis() - inicioFaseBusqueda;
 
   if(buscandoGirando){
+    // Gira un pasito, frena y espera a que el sensor este listo:
+    // asi la medicion siguiente se hace con el robot quieto, apuntando a un angulo fijo.
+    // (Girando sin parar, el HC-SR04 mide pocas veces por segundo y el rival "se le pasa")
     mD.motor(MotorDerecho,BACKWARD, VelocidadGiroBusqueda);
     mI.motor(MotorIzquierdo,FORWARD, VelocidadGiroBusqueda);
+    delay(PasoGiroBusqueda);
+    Frenar();
+    SensorLibre(200);
     if(transcurrido >= TiempoGiroBusqueda){
       buscandoGirando = false;
       inicioFaseBusqueda = millis();
@@ -127,6 +134,11 @@ void Atacar(){
 int HayLinea(){
   if(SensorLineaD()==1 or SensorLineaI()==1){return 1;}
   return 0;
+}
+
+void Frenar(){
+  mD.motor(MotorDerecho,FORWARD, 0);
+  mI.motor(MotorIzquierdo,FORWARD, 0);
 }
 
 void Ataque(){
@@ -165,9 +177,21 @@ int SensorLineaD(){
   return 0;
 }
 
+// Espera a que el HC-SR04 termine la medicion anterior (pin Echo en LOW).
+// Mientras Echo esta en HIGH el sensor ignora los disparos nuevos.
+bool SensorLibre(unsigned long maxEspera){
+  unsigned long inicio = millis();
+  while(digitalRead(Echo) == HIGH){
+    if(millis() - inicio >= maxEspera){return false;}
+  }
+  return true;
+}
+
 int SensorOponente(){
   unsigned long t; 
   float d; 
+
+  if(!SensorLibre(60)){return 0;} // sensor todavia ocupado: no se puede medir
 
   digitalWrite(Trigger, LOW);
   delayMicroseconds(2);
